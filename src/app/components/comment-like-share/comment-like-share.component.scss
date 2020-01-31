@@ -1,0 +1,65 @@
+
+.like {
+
+  &__valid {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: calc(50% - 5px);
+    bottom: -5px;
+  }
+
+  &__image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+  &__follow {
+    border: 1px solid #44C7F4;
+    border-radius: 25px;  
+  }
+
+  &__follow:hover {
+    background: #44C7F4;
+    color: white;  
+  }
+
+  &__separator {
+    border-bottom: 1px solid lightgray;
+    width: 80%;
+    margin: 10px auto;
+  }
+}
+
+.comment {
+  
+}
+
+.get-more {
+  background: #44C7F4;
+  padding: 20px;
+  color: white;
+}
+
+:host ::ng-deep .nav-tabs>li>a {
+  font-weight: bold;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: black;
+}
+
+:host ::ng-deep .nav-tabs {
+  display: flex;
+}
+
+:host ::ng-deep .nav-tabs > li {
+  flex-grow: 1;
+  text-align: center;
+}
+
+:host ::ng-deep .nav-tabs>li>a.active {
+  border-bottom: 4px solid #44C7F4;
+}
+
+

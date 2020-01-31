@@ -1,0 +1,379 @@
+
+a
+{
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+
+.cursor-pointer
+{
+     cursor: pointer !important;
+}
+
+
+/*************************************************************************************/
+
+
+input.labelauty + label > span.labelauty-unchecked-image,
+input.labelauty + label > span.labelauty-checked-image
+{
+    top: 4px;
+    left: 2px;
+    position: absolute;
+}
+
+
+input.labelauty + label > span.labelauty-checked-image
+{
+    width: 18px !important;
+    height: 12px !important;
+}
+
+
+input.labelauty + label > span.labelauty-unchecked-image, input.labelauty + label > span.labelauty-checked-image
+{
+    width: 12px;
+    height: 12px;
+    
+}
+
+
+input.labelauty + label
+{
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    float: right !important;
+}
+
+
+input.labelauty:checked + label
+{
+	background-color: #00B4F1;
+	color: #ffffff;
+}
+
+
+/*************************************************************************************/
+
+
+#navbar2 #collapse2 li
+{
+    display: inline-block !important;
+    padding:10px !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    color: #484848 !important;
+}
+
+#navbar2 #collapse2 li a
+{
+    padding-left:20px !important;
+    padding-right:0px !important;
+    padding-top:10px !important;
+    padding-bottom:10px !important;
+}
+
+
+.btn_menu
+{
+    color: #95989A !important; 
+    font-weight: 600 !important; 
+    font-size: 1.1em !important;
+    border: 1px solid transparent !important;
+    padding-left: 15px !important; 
+    padding-right: 15px !important; 
+    padding-top:5px !important;
+    padding-bottom: 5px !important;
+    font-weight: 600 !important; 
+}
+
+
+.btn_menu:hover, .btn_menu:focus, .btn_menu_active
+{
+    color: #00B4F1 !important; 
+    background-color: transparent !important; 
+    border-radius:20px;
+    border: 1px solid #00B4F1 !important;
+}
+
+
+
+/*************************************************************************************/
+
+
+.form-control-custom
+{
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    
+}
+
+
+/*************************************************************************************/
+
+#addService_pricing #custom_inputs input
+{
+
+    width: 100% !important;
+    box-shadow: none !important;
+    color: #484848 !important;
+    display: inline-block !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    border-radius: 0px;
+    box-shadow:none;
+    
+}
+
+#addService_pricing #custom_inputs .p_absolute,
+#chat_custom_inputs .p_absolute
+{
+    position:absolute;
+    left:46px;
+    top:7px;
+    color: #484848;
+    display:inline-block; 
+}
+
+
+#chat_custom_inputs .p_absolute
+{
+   top:10px;
+   left:32px;
+   font-size: 0.9em;
+}
+
+
+/*************************************************************************************/
+
+
+#modal_addService select::-ms-expand, #modal_addService select::expand, #modal_addService select::-webkit-expand
+{
+    display: none !important;
+}
+ 
+
+.abc
+{
+    background-image: url('../images/icons/tag.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding-right: 20px;
+}
+
+
+
+/*************************************************************************************/
+
+
+.theme_badge
+{
+    background-color:rgb(255,45,52) !important;
+    height:14px !important;
+    width:14px !important;
+    font-size:11px;
+    border-radius: 50% !important;
+    padding:2px !important;
+    padding-left:3px !important;
+    position: absolute !important;
+    right:8px;
+    top:3px;
+}
+
+
+/*************************************************************************************/
+
+
+.boxshadow-none
+{
+    box-shadow: none !important;
+}
+
+.border-0
+{
+    border: 0px !important;
+}
+
+.border-top-right-radius-0
+{
+    border-top-right-radius: 0px !important;
+}
+
+.border-top-left-radius-0
+{
+    border-top-left-radius: 0px !important;
+}
+
+.border-bottom-right-radius-0
+{
+    border-bottom-right-radius: 0px !important;
+}
+
+.border-bottom-left-radius-0
+{
+    border-bottom-left-radius: 0px !important;
+}
+
+
+/*************************************************************************************/
+
+
+.color-offwhite
+{
+    color: #f9f9f9 !important;
+}
+
+.color-silver
+{
+    color: rgb(240,240,243) !important;
+}
+
+.color-blue
+{
+    color: #00B4F1 !important;
+}
+
+.color-lightgray
+{
+    color: #e4e4e4 !important;
+}
+
+.color-mediumgray
+{
+    color: #AEB3BB !important;
+}
+
+.color-gray
+{
+    color: #95989A !important;
+}
+
+.color-darkgray
+{
+    color: #484848 !important
+}
+
+
+
+/*************************************************************************************/
+
+
+.bg-offwhite
+{
+    background-color: #f9f9f9 !important;
+}
+
+.bg-silver
+{
+    background-color: rgb(247,247,250) !important;
+}
+
+.bg-lightgray
+{
+    background-color: #e4e4e4 !important;
+}
+
+.bg-mediumgray
+{
+    background-color: #AEB3BB !important;
+}
+
+.bg-gray
+{
+    background-color: #95989A !important;
+}
+
+.bg-transparent
+{
+    background-color: transparent !important;
+}
+
+.bg-blue
+{
+    background-color: #00B4F1 !important;
+}
+
+
+/*************************************************************************************/
+
+
+.li_circle
+{
+    background-color: #AEB3BB !important;
+    border-radius: 50%;
+    width: 16px !important;
+    height: 16px !important;
+    display: inline-block !important;
+    vertical-align: text-top !important;
+    float: right !important;
+    margin-left:6px;
+    margin-right:6px;
+}
+
+
+
+/*************************************************************************************/
+
+
+.btn_blue
+{
+    color: #00B4F1 !important;
+    border: 1px solid #00B4F1 !important;
+    text-transform: capitalize !important;
+    background-color: #fff !important;
+    border-radius: 10px !important;
+}
+
+
+
+/**************************  media queries ***********************************************************/
+
+
+
+@media screen and (max-width:1200px)
+{
+    #top_menu_searchbox
+    {
+        width: 330px !important;
+    }
+    
+}
+
+
+@media screen and (max-width:768px)
+{
+    #navbar2 #collapse2 li
+    {
+       display: inline !important;
+    }
+    
+    #navbar2_brand
+    {
+        padding-top: 15px !important;
+    }
+    
+    #navbar1_brand
+    {
+        padding-top: 5px !important;
+    }
+    
+}
+
+
+
+/*************************************************************************************/
+
+
+

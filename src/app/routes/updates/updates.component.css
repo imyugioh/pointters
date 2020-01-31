@@ -1,0 +1,14 @@
+.comment-input {
+
+}
+
+.comment-input:focus {
+  outline: none;
+}
+
+.post-tags {
+  padding: 10px;
+  align-items: center;
+  display: flex;
+  background: #F6F7F9;
+}

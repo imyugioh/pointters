@@ -1,0 +1,53 @@
+.clickable {
+  cursor: pointer;
+}
+.chat-header {
+  min-height: 80px;
+}
+.right {
+  float: right;
+  margin-right: -20px;
+}
+.messages {
+  min-height: 520px;
+}
+.right-img {
+  float: right;
+  text-align: left;
+}
+.right-text {
+  text-align: right;
+}
+.right-footnote {
+  width: 350px!important;
+  text-align: right;
+}
+.text-message {
+ background-color:#F0F0F3;
+}
+.your-message {
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 1px 8px 2px rgba(217, 217, 217, 1);
+  box-shadow: 0px 1px 8px 2px rgba(217, 217, 217, 1);
+}
+.others-message {
+  background: #f0f0f3;
+  box-shadow: none;
+}
+.service-image {
+  width: 110px;
+  height: 110px;
+  background-size: cover;
+}
+.description-text {
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+}
+.bg-img {
+  background-size: cover;
+  background-position: center;
+}
+.rounded {
+  border-radius: 4px;
+}

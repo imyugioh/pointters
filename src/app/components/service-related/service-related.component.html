@@ -1,0 +1,36 @@
+<div class="col-xs-12 col-sm-6 col-md-3">
+    <div class="col-xs-12 col-md-12 padding-0 color-bg-white related-item">
+        <div class="col-xs-12 col-md-12 padding-0 related-img">
+            <img src="{{data.service.media[0].fileName}}" alt="">
+        </div>
+        <div class="col-xs-12 col-md-12" style="border-bottom:1px solid #e4e4e4;">
+            <h4 class="color-darkgray">{{data.seller.firstName}} {{data.seller.lastName}}</h4>
+            <p class="font-em-09 margin-bottom-3">$50 <span class="color-blue" style="text-decoration:line-through;">$100</span> for 1 hour</p>
+            <p class="font-em-09 margin-bottom-8">
+                <i class="fa fa-map-marker color-gray"></i> {{data.service.location[0].city}} {{data.service.location[0].country}} {{data.service.location[0].province}}Km
+            </p>
+            <div class="col-xs-12 col-md-12 padding-0">
+                <div class="col-xs-4 col-md-4 padding-0">
+                    <p class="pull-left color-gray font-em-09">
+                        <img src="assets/images/p.png" alt=""> 234
+                    </p>
+                </div>
+                <div class="col-xs-4 col-md-4 padding-0">
+                    <p class="color-gray font-em-09">
+                        <i class="fa fa-briefcase"></i> {{data.service.numOrders}}
+                    </p>
+                </div>
+                <div class="col-xs-4 col-md-4 padding-0">
+                    <p class="pull-right color-gray font-em-09">
+                        <i class="fa fa-star"></i> {{data.service.avgRating}}%
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="service_detail_link" onclick="btn_menu_f(this)" class="cursor-pointer col-xs-12 col-md-12 padding-top-6 sub_div_footer">
+            <img src="{{data.seller.profilePic}}" alt="img" style="border-radius:50%; width:24px; height:24px; margin-right:2px;">
+            <p class="color-mediumgray font-em-09 display-inlineBlock">{{data.seller.firstName}} {{data.seller.lastName}}</p>
+            <p class="p2 color-blue font-weight-600 pull-right margin-top-4 display-inlineBlock" style="font-size:12px;">Promoted</p>
+        </div>
+    </div>
+</div>

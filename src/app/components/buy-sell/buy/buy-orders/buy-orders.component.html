@@ -1,0 +1,79 @@
+<div id="index_contentarea" class="col-md-9 col-sm-7 col-xs-12 margin-top-30 padding-bottom-200">
+
+    <div id="buy_sell" class="col-xs-12 col-md-9 padding-0">
+
+
+        <div class="d-flex justify-content-center">
+            <div class="margin-top-100 text-bold text-center" style="max-width: 350px" *ngIf="models && models.length <= 0">
+                    <img style="width: 80px; height: 80px" src="assets/images/icons/mail-sent.png">
+                    <h4 class="text-bold"> You haven’t made any purchases yet</h4>
+            <button [routerLink]="['/home']" class="btn btn-default margin-top-30 text-bold" style="border-radius: 30px; border:none; color: white;background: #00B4F1; padding: 10px 20px"> Explore Services Now</button>
+                </div>            
+        </div>
+
+        <div *ngFor="let model of models" class="col-md-12 col-sm-12 sub_div col-xs-12 div-white-box-shadow margin-bottom-30 padding-0"
+            style="border-bottom:2px solid #e4e4e4 !important; max-width:550px">
+
+            <div class="col-md-12 col-xs-12 padding-30 padding-bottom-15" style="border-bottom:1px solid #e4e4e4;">
+
+                <div class="col-md-3 col-xs-3 sub_div_image">
+                    <img src="{{ model.order.media.fileName }}" alt="" width="110px" height="110px">
+                </div>
+
+                <div class="col-md-9 col-xs-9 padding-right-0">
+                    <h4 class="margin-top-0 color-text-black font-weight-600"> {{ model.order.description | truncateToWord:40 }}</h4>
+                    <p class="font-em-09 margin-bottom-5">
+                        {{ model.order.currencySymbol }}{{ model.order.totalAmount}}
+                        <span class="color-blue" style="text-decoration: line-through;">{{ model.order.currencySymbol }}{{ model.order.totalAmountBeforeDiscount}}</span> for 1 hour
+                    </p>
+                    <p class="font-em-09 color-mediumgray margin-bottom-5">
+                        <span class="fa fa-map-marker"></span> {{model.order.serviceLocation.city}} , {{model.order.serviceLocation.country}}, {{ user &&
+                        ( turf(model.order.serviceLocation.geoJson, user.location.geoJson) | truncateNumber) }} km
+                    </p>
+                    <p class="font-em-09 color-mediumgray margin-bottom-5">
+                        By {{ model.seller.firstName }} {{ model.seller.lastName}}
+                    </p>
+
+                    <p class="font-em-09 color-mediumgray margin-bottom-5">
+                        Paid on {{ model.order.paymentDate }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-xs-12 col-md-12 sub_div_description padding-15 padding-left-30" style="background-color:#F6F7F9;">
+
+                <div class="sub_div_footer col-md-4 col-sm-4 col-xs-5 padding-0">
+                    <h4 class="color-blue font-weight-600 display-inlineBlock font-em-12">{{ model.order.status }}</h4>
+                </div>
+
+                <div class="col-md-8 col-sm-8 col-xs-7 padding-top-10">
+                    <ul class="padding-0 margin-0 pull-right">
+                        <li class="display-inlineBlock margin-right-15" style="position: relative">
+                            <span *ngIf="model.order.notificationCount > 0" class="badge" style="position: absolute; left: -5px; bottom: -3px">5</span>
+                            <img src="assets/images/icons/icon_bell.png" alt="">
+                        </li>
+                        <li class="display-inlineBlock">
+                            <a routerLink="/char">
+                                <img src="assets/images/icons/icon_email.png" alt="">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div style="max-width: 550px; position: relative">
+            <sk-three-bounce *ngIf="fetching"></sk-three-bounce>
+        </div>
+        <div *ngIf="page < maxPage" #scroll class="col-md-12 col-sm-12 sub_div col-xs-12 div-white-box-shadow margin-bottom-30 padding-0"
+            style="border:none !important;"></div>
+
+    </div>
+
+</div>

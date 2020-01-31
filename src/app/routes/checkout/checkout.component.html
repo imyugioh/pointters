@@ -1,0 +1,323 @@
+
+   <!------------------------------------------------------------------------------------------------------------------------------------->
+
+
+
+
+   <div id="index_main" class="col-xs-12 col-md-12 padding-0 padding-bottom-60" style="background-color:rgb(249,249,249)">
+
+
+      <div class="container">
+
+
+      <div class="col-xs-12 col-md-12 margin-top-30">
+
+          <h4 class="color-darkgray font-weight-600 text-left padding-bottom-15 padding-left-15">Checkout</h4>
+
+      </div>
+
+
+<!---------------------------------------------------------------------------------------------------------------------------------->
+
+
+      <div class="col-xs-12 col-md-12 margin-top-30">
+
+       <div id="index_sidepanel" class="col-md-6 col-sm-8 col-xs-12">
+
+
+            <div class="col-xs-12 col-md-12 padding-0 padding-bottom-60">
+
+               <div class="col-xs-12 col-md-12 padding-0">
+
+                   <div class="col-xs-12 col-md-12 padding-0">
+
+                       <div class="col-xs-3 col-md-2 padding-0">
+                           <img src="assets/images/checkout.png" alt="">
+                       </div>
+
+                       <div class="col-xs-9 col-md-10">
+                           <h4 class="color-darkgray font-weight-600 text-left margin-0">Dog Walking Service</h4>
+                           <p class="color-gray margin-0 font-px-12 margin-top-5">$50 <span class="color-blue" style="text-decoration:line-through;">$100</span> for 1 hour</p>
+                           <p class="color-gray margin-0 font-px-12 margin-top-3">
+                              <i class="fa fa-map-marker"></i>
+                              Sans Jose, CA, 22 km
+                           </p>
+                           <p class="color-gray margin-0 font-px-12 margin-top-3">by Daisy Williams</p>
+                           <p class="color-gray margin-0 font-px-12 margin-top-3">Paid on June 02</p>
+                       </div>
+
+                   </div>
+
+               </div>
+
+
+               <div class="col-xs-12 col-md-12 padding-0 margin-top-10" style="border-bottom:1px solid #e4e4e4;">
+
+
+                <div class="col-xs-12 col-md-12 padding-0 margin-top-20 margin-bottom-20">
+
+                    <div class="col-xs-6 col-md-4 padding-0">
+                        <p class="margin-top-2" style="color:#484848;">$10 for 1 hour of walking</p>
+                    </div>
+
+                    <div class="col-xs-6 col-md-8 padding-0">
+
+                        <img class="cursor-pointer" onclick="btn_update_value('minus','text_value_1');" src="assets/images/icons/minus.png" alt="">
+                        <p id="text_value_1" class="width-60-px display-inlineBlock text-center" style="color:#484848;">1</p>
+                        <img class="cursor-pointer" onclick="btn_update_value('plus','text_value_1');" src="assets/images/icons/plus.png" alt="">
+
+                    </div>
+
+                </div>
+
+
+                 <div class="col-xs-12 col-md-12 padding-0 margin-bottom-20">
+
+                    <div class="col-xs-6 col-md-4 padding-0">
+                        <p class="margin-top-2" style="color:#484848;">$20 for wah + walk</p>
+                    </div>
+
+                    <div class="col-xs-6 col-md-8 padding-0">
+
+                        <img class="cursor-pointer" onclick="btn_update_value('minus','text_value_2');" src="assets/images/icons/minus.png" alt="">
+                        <p id="text_value_2" class="width-60-px display-inlineBlock text-center" style="color:#484848;">1</p>
+                        <img class="cursor-pointer" onclick="btn_update_value('plus','text_value_2');"  onclick="btn_update_value();"src="assets/images/icons/plus.png" alt="">
+
+                    </div>
+
+                </div>
+
+
+               </div>
+
+
+                 <div id="payment_method" class="col-xs-12 col-md-12 margin-top-30 padding-0">
+
+                      <h4 class="color-darkgray font-weight-600 text-left">Payment Method</h4>
+
+                      <form>
+                        <div id="dropin-container"></div>
+                      </form>
+
+                 </div>
+
+
+
+                <div id="shipping_method" class="col-xs-12 col-md-12 margin-top-40 padding-0">
+
+                      <h4 class="color-darkgray font-weight-600 text-left">Shipping Method</h4>
+
+                       <div id="normal_0" onclick="shipping_method(this);" class="cursor-pointer col-xs-12 col-md-12 margin-bottom-5 margin-top-15">
+
+                         <img class="checkout_image" src="assets/images/icons/checkout_1.png" alt="">
+                         <p class="color-darkgray display-inlineBlock margin-0 margin-left-5">Normal</p>
+
+                       </div>
+
+
+                       <div id="normal_1" onclick="shipping_method(this);" class="cursor-pointer col-xs-12 col-md-12 margin-top-5">
+
+                         <img class="checkout_image" src="assets/images/icons/checkout_0.png" alt="">
+                         <p class="color-darkgray display-inlineBlock margin-0 margin-left-5">Expedited</p>
+
+                       </div>
+
+                </div>
+
+
+
+                 <div id="shipping_address" class="col-xs-12 col-md-12 margin-top-40 padding-0">
+
+                      <h4 class="color-darkgray font-weight-600 text-left">Shipping Address</h4>
+
+                      <div id="address_1" onclick="shipping_address(this);" class="cursor-pointer col-xs-12 col-md-12 color-bg-white padding-15 margin-top-15 margin-bottom-15" style="border:1px solid #e4e4e4; border-radius:3px;">
+
+                         <img class="checkout_image" src="assets/images/icons/checkout_1.png" alt="">
+                         <p class="color-darkgray display-inlineBlock margin-0 margin-left-5">No, 23, Sieble Lane, Chicogo IL</p>
+
+                         <p class="pull-right margin-0 margin-top-5 color-blue font-em-09" alt=""> Email Address </p>
+
+                      </div>
+
+
+                       <div id="address_2" onclick="shipping_address(this);" class="cursor-pointer col-xs-12 col-md-12 color-bg-white padding-15 margin-top-15 margin-bottom-15" style="border:1px solid #e4e4e4; border-radius:3px;">
+
+                         <img class="checkout_image" src="assets/images/icons/checkout_0.png" alt="">
+                         <p class="color-darkgray display-inlineBlock margin-0 margin-left-5">New address</p>
+
+
+                         <div id="address_extension" class="col-xs-12 col-md-12 padding-0 padding-top-20 hidden">
+
+                             <div class="col-xs-12 col-md-12 padding-0 margin-top-20">
+
+                                 <p class="color-gray margin-bottom-5">Name</p>
+                                 <input type="text" class="width-100-p form-control height-40-px boxshadow-none" style="border-color:#e4e4e4;">
+
+                             </div>
+
+                             <div class="col-xs-12 col-md-12 padding-0 margin-top-20">
+
+                                 <p class="color-gray margin-bottom-5">Street</p>
+                                 <input type="text" class="width-100-p form-control height-40-px boxshadow-none" style="border-color:#e4e4e4;">
+
+                             </div>
+
+                              <div class="col-xs-12 col-md-12 padding-0 margin-top-20">
+
+                                  <div class="col-xs-6 col-md-6 padding-left-0">
+
+                                    <p class="color-gray margin-bottom-5">City</p>
+                                    <input type="text" class="width-100-p form-control height-40-px boxshadow-none" style="border-color:#e4e4e4;">
+
+                                  </div>
+
+                                  <div class="col-xs-6 col-md-6 padding-right-0">
+
+                                   <p class="color-gray margin-bottom-5">State</p>
+                                   <input type="text" class="width-100-p form-control height-40-px boxshadow-none" style="border-color:#e4e4e4;">
+
+                                  </div>
+
+                              </div>
+
+                               <div class="col-xs-12 col-md-12 padding-0 margin-top-20">
+
+                                  <div class="col-xs-6 col-md-6 padding-left-0">
+
+                                     <p class="color-gray margin-bottom-5">Postal Code</p>
+                                     <input type="text" class="width-100-p form-control height-40-px boxshadow-none" style="border-color:#e4e4e4;">
+
+                                  </div>
+
+                                  <div class="col-xs-6 col-md-6 padding-right-0">
+
+                                      <p class="color-gray margin-bottom-5">Country</p>
+
+                                      <a class="form-control-custom text-left dropdown-toggle padding-0 padding-top-8 padding-left-10 height-40-px" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="border:1px solid #e4e4e4;">USA</a>
+
+                                         <div id="addCategory" class="dropdown-menu boxshadow-none color-bg-white padding-0" style="position:absolute; border:1px solid #e4e4e4; border-radius:5px; width:100%; top: 31px; left:0px; border-top-right-radius: 0px; border-top-left-radius: 0px;">
+
+                                         <ul class="padding-top-8 padding-left-15">
+                                             <li class="color-darkgray">UK</li>
+                                             <li class="color-darkgray">UAE</li>
+                                         </ul>
+
+                                         </div>
+
+                                          <i class="fa fa-caret-down pull-right color-mediumgray padding-4 padding-right-10 color-bg-white" style="position:absolute; right:5px; top: 32px; font-size: 18px;"></i>
+
+                                  </div>
+
+                              </div>
+
+
+                            <div class="col-xs-12 col-md-12 padding-0 margin-top-20 margin-bottom-20">
+
+                                 <li id="li_post" onclick="" class="display-inlineBlock padding-top-12 pull-right">
+                                     <a data-toggle="modal" data-target="#" class="text-uppercase margin-top-40 bg-blue color-text-white font-px-14 font-weight-600 padding-6 padding-left-15 padding-right-15" style="border-radius:15px;">Save</a>
+                                 </li>
+
+                                 <li onclick="newpost_click(this);" id="post_new_update_cancel" class="display-inlineBlock padding-top-12 pull-right margin-right-20">
+                                     <a data-toggle="modal" data-target="#" class="margin-top-40 font-px-14 font-weight-600 color-darkgray text-uppercase">Cancel</a>
+                                 </li>
+
+                           </div>
+
+
+                         </div>
+
+
+                      </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+       </div> <!-- index_sidepanel-->
+
+ <!------------------------------------------------------------------------------------------------------------------------------------->
+
+
+
+
+       <div id="index_contentarea" class="col-md-6 col-sm-6 col-xs-12">
+
+             <div class="col-xs-12 col-md-8 col-md-offset-3 color-bg-white padding-30" style="border: 1px solid #EAEAEA; border-radius:3px;">
+
+
+                 <h4 class="color-darkgray font-weight-600 text-left margin-bottom-20">Order Summary</h4>
+
+                     <div class="col-xs-12 col-md-12 padding-0 padding-top-10 padding-bottom-10" style="border-top:1px solid #eaeaea; border-bottom:1px solid #eaeaea;">
+
+                         <div class="col-xs-12 col-md-12 padding-0 margin-top-10 margin-bottom-10">
+
+                             <p class="font-em-12 color-darkgray pull-left margin-0">Subtotal</p>
+                             <p class="font-em-12 color-darkgray pull-right margin-0">$30</p>
+
+                         </div>
+
+                         <div class="col-xs-12 col-md-12 padding-0 margin-top-10 margin-bottom-10">
+
+                             <p class="font-em-12 color-darkgray pull-left margin-0">Transaction Fee</p>
+                             <p class="font-em-12 color-darkgray pull-right margin-0">$10</p>
+
+                         </div>
+
+                         <div class="col-xs-12 col-md-12 padding-0 margin-top-10 margin-bottom-10">
+
+                             <p class="font-em-12 color-darkgray pull-left margin-0">Taxes</p>
+                             <p class="font-em-12 color-darkgray pull-right margin-0">$2.00</p>
+
+                         </div>
+
+                     </div>
+
+
+                    <div class="col-xs-12 col-md-12 padding-0 margin-top-20 margin-bottom-20">
+
+                        <p class="font-em-12 color-text-black pull-left margin-0">Total</p>
+                        <p class="font-em-12 color-text-black pull-right margin-0">$42.00</p>
+
+                    </div>
+
+
+                    <div class="col-xs-12 col-md-12 padding-0 margin-top-10 margin-bottom-10">
+
+                        <p class="color-gray pull-left margin-0">Total Delivery Days</p>
+                        <p class="color-gray pull-right margin-0">3</p>
+
+                    </div>
+
+
+                    <div class="col-xs-12 col-md-12 padding-left-0 margin-top-10 margin-bottom-10">
+
+                        <p class="color-blue font-em-11 font-weight-500">Pointters Additional Terms of Service<span class="color-darkgray">, and  the </span>Cancellation Policy<span class="color-darkgray">.</span> </p>
+
+                    </div>
+
+
+                    <div class="col-xs-12 col-md-12 padding-0 text-center margin-top-20 margin-bottom-20 cursor-pointer" routerLink="/order-fulfillment">
+                        <input type="button" class="form-control bg-blue font-px-16 color-text-white font-weight-600 border-none" style="border-radius:30px; height:40px;" value="Confirm and Pay">
+                    </div>
+
+
+             </div>
+
+
+       </div>
+
+
+       <!-------------------------------------------------------------------------------------------------------------------------->
+
+
+
+          </div>
+
+       </div>
+
+   </div>

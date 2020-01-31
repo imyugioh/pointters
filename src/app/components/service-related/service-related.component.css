@@ -1,0 +1,12 @@
+.related-item {
+  border-radius:15px; 
+  overflow:hidden;
+}
+
+.related-item .related-img {
+  /*background-image:url(assets/images/user_profile_1.png); */
+  height:167px; 
+  background-position:center; 
+  background-repeat:no-repeat; 
+  background-size:cover;
+}

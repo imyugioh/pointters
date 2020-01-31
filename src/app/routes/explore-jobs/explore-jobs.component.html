@@ -1,0 +1,333 @@
+<div class="col-xs-12 col-md-8 padding-0 ">
+
+  <div
+    class="col-xs-12 col-md-12 col-lg-12 color-bg-white padding-0"
+    style="border-radius:5px; border:1px solid #e4e4e4;"
+  >
+      <div class="col-xs-3 col-md-3 padding-0 explore-jobs-search-select" style="position:relative;">
+           <div class="col-xs-12 col-md-12 padding-0">
+           <ng-select
+            [items]="categories"
+            [clearable]="false"
+            bindLabel="name"
+            bindValue="_id"
+            groupBy="group"
+            [(ngModel)]="selectedCategoryId"
+            (ngModelChange)="searchByCategory($event)"
+           >
+           </ng-select>
+           </div>
+      </div>
+
+
+      <div id="jobs_searchbox" class="col-xs-6 col-md-6 padding-0" style="border-right:1px solid #e4e4e4; border-left:1px solid #e4e4e4;">
+
+      <div class="form-group dropdown margin-0" style="position:relative;">
+
+               <i class="fa fa-search padding-12 padding-left-15 color-mediumgray" style="position:absolute; z-index:1;"></i>
+               <input onkeyup="typing_jobs();" id="jobbs_searchbox" type="text" class="dropdown-toggle form-control padding-left-40 height-40-px margin-bottom-0 border-none boxshadow-none" placeholder="Search services">
+
+  <!--
+               <span id="icon_cross_jobs" onclick="close_searchSuggestionsTyping_jobs();"  style="position:absolute; right: 10px; top: 8px; z-index:1; width:15px; height:15px;" class="hidden">
+                  <img src="images/icons/close_small.png" alt="">
+               </span>
+
+  -->
+
+       <div id="search_suggestions_jobs" class="hidden dropdown-content color-bg-white padding-15 padding-left-40" style="position:absolute; border:1px solid #e4e4e4; border-radius:5px; width:100.3%; z-index:999; border-top-right-radius:0px; border-top-left-radius:0px; border-top:0px; margin-top:0px; border:1px solid #e4e4e4; margin-left:-0.5px;">
+           <ul class="padding-0">
+               <li class="padding-top-3 padding-bottom-3 color-gray font-weight-600">Popular Categories</li>
+               <li class="padding-top-3 padding-bottom-3 color-darkgray">Photographer</li>
+               <li class="padding-top-3 padding-bottom-3 color-darkgray">Entertainer</li>
+               <li class="padding-top-3 padding-bottom-3 color-darkgray">Wedding Planner</li>
+               <li class="padding-top-3 padding-bottom-3 font-em-09 color-blue">See all</li>
+           </ul>
+
+            <ul class="padding-0 margin-top-10">
+               <li class="padding-top-3 padding-bottom-3 color-gray font-weight-600">Recent Searches</li>
+               <li class="padding-top-3 padding-bottom-3 color-darkgray">Dog Walker</li>
+               <li class="padding-top-3 padding-bottom-3 color-darkgray">DJ Artist</li>
+               <li class="padding-top-3 padding-bottom-3 color-darkgray">House Painters</li>
+               <li class="padding-top-3 padding-bottom-3 font-em-09 color-blue">See all</li>
+           </ul>
+
+       </div>
+
+
+     </div>
+      </div>
+      <div id="location_jobs" class="col-xs-3 col-md-3 dropdown-toggle" data-toggle="dropdown">
+
+            <span onclick="display_suggestion_2_jobs();" id="jobs_locationbox" class="color-gray" style="position:absolute; right: 60px; top: 10px;">
+               <img src="assets/images/icons/icon_location.png" width="14px" height="14px" alt="">
+               <p class="display-inlineBlock">Location</p>
+            </span>
+
+             <div id="search_suggestions_2_jobs" class="div-white-box-shadow-7 dropdown-menu dropdown-content-2 color-bg-white padding-15 padding-left-25" style="position:absolute; border:1px solid #e4e4e4; border-radius:5px; width:103%; z-index:999; position:absolute; left: -2px; top: -3px;">
+                  <ul class="padding-0">
+                       <li class="text-left padding-top-3 padding-bottom-3 color-blue font-weight-600 font-px-12">
+                       <img src="assets/images/icons/location_icon.png" style="margin-top:-2px" alt="">
+                       Current Location
+                       </li>
+                       <li class="text-left padding-top-3 padding-bottom-3 margin-top-5 color-gray font-em-09">Chicago, IL</li>
+                       <li class="text-left padding-top-3 padding-bottom-3 margin-top-5 color-gray font-em-09">Chicagoland, IL</li>
+                       <li class="text-left padding-top-3 padding-bottom-3 margin-top-5 color-gray font-em-09">Chicago Union Station</li>
+                   </ul>
+             </div>
+      </div>
+
+  </div>
+
+<div
+  class="jobs-scroll-wrapper"
+  [ngStyle]="{'height': scrollHeight + 'px'}"
+>
+<div
+  class="jobs-scroller jobs-scroll-content col-xs-12 col-md-12 col-lg-12 padding-0 margin-top-15"
+  infiniteScroll
+  [ngStyle]="{'height': scrollHeight + 'px', 'position': 'absolute', 'left': 0}"
+  [scrollWindow]="false"
+  [infiniteScrollThrottle]="50"
+  [infiniteScrollDisabled]="infiniteScrollDisabled"
+  (scrolled)="searchMode ? searchByLocation(selectedCategoryId) : getJobs(selectedCategoryId)"
+>
+      <div class="jobs-scroll-inner-wrapper">
+          <div *ngIf="notFound && fetching === false">
+            <div
+             class="col-xs-12 col-md-12 margin-bottom-15 div-white-box-shadow-7">
+             <p>No Jobs Found</p>
+             <a class="clickable btn btn-default btn-search color-text-white bg-blue font-weight-600 padding-left-30 padding-right-30 margin-top-5" (click)="resetSearchData()">See All Jobs</a>
+           </div>
+          </div>
+          <div *ngIf="data && data.docs && infiniteScrollDisabled === false">
+           <div
+            class="col-xs-12 col-md-12 padding-0 color-bg-white margin-bottom-15 div-white-box-shadow-7 clickable"
+            style="position:relative; border-border-radius:5px; border-right:1px solid #e4e4e4; border-left:1px solid #e4e4e4;"
+            *ngFor="let item of data.docs, let i = index; trackBy: trackByIdFn;"
+            (click)="viewJob(item.id)"
+            >
+
+               <div class="col-xs-12 col-md-12 padding-bottom-10 padding-top-10">
+                    <div class="display-inlineBlock width-15-px height-15-px bg-blue border-radius-50p padding-top-1 margin-right-5">
+                       <p class="color-text-white font-em-07 text-center">{{i + 1}}</p>
+                    </div>
+                    <div style="position:relative;" class="display-inlineBlock text-center margin-right-10">
+                         <img src="{{item.user.profilePic}}" alt="" style="margin-left:auto; margin-right:auto; border-radius: 50%;" width="44px" height="44px">
+                         <img *ngIf="item.user.verified" src="assets/images/icons/online@2x.png" style="position:absolute; bottom:-6px; right:38%;" width="12px" height="12px" alt="">
+                   </div>
+                   <div class="display-inlineBlock" style="vertical-align:middle;">
+                        <span>
+                            <p class="color-darkgray font-px-14 margin-0 clickable" [routerLink]="['../../profile/' + item.user.id]">{{item.user.firstName}} {{item.user.lastName}}</p>
+                            <p class="color-darkgray font-px-12 margin-0 max-width-400 clickable">{{item.description}}</p>
+                            <p>
+                               <i class="fa fa-map-marker color-gray"></i>
+                               <span class="color-gray font-em-09" *ngIf="item && item.location">{{item.location.city}}, {{item.location.state}}, {{getDistance(item.location.geoJson.coordinates)}}</span>
+                            </p>
+                        </span>
+                   </div>
+                     <span style="position:absolute; top:15px; right:15px;" >
+                        <p class="color-textblack font-weight-600">{{item.currencyCode}}{{item.minPrice || 0}} - {{item.currencyCode}}{{item.maxPrice}}</p>
+                     </span>
+                     <span style="position:absolute; bottom:10px; right:15px;">
+                        <i class="color-mediumgray fa fa-clock-o"></i>
+                        <p class="color-mediumgray display-inlineBlock">{{moment(item.scheduleDate).format('DD/MM h:mmA')}}</p>
+                     </span>
+               </div>
+               <div class="col-xs-12 col-md-12 padding-top-10 padding-bottom-10" style="border-top:1px solid #e4e4e4;">
+                     <div class="col-xs-6 col-md-6 padding-0">
+                        <p class="color-mediumgray margin-0 font-em-09 margin-bottom-2">Posted on {{moment(item.createdAt).format('DD/MM')}}</p>
+                        <p class="color-blue margin-0 font-em-09">{{item.numOffers || 0}} offers received</p>
+                     </div>
+                     <div class="col-xs-6 col-md-6 padding-0">
+                        <div class="col-xs-12 col-md-12 padding-0">
+                           <p
+                            class="color-blue margin-0 font-em-09 text-right margin-bottom-2 pull-right"
+                            *ngIf="item.expiresAt && moment(item.expiresAt) > moment()"
+                            >
+                             Expires {{moment(item.expiresAt).format('DD/MM')}}
+                           </p>
+                           <p
+                            class="color-blue margin-0 font-em-09 text-right margin-bottom-2 pull-right"
+                            *ngIf="!item.expiresAt"
+                            >
+                             Expires n/a
+                           </p>
+                           <p
+                            class="color-blue margin-0 font-em-09 text-right margin-bottom-2 pull-right"
+                            *ngIf="item.expiresAt && moment(item.expiresAt) <= moment()"
+                            >
+                             Expired
+                           </p>
+                        </div>
+                        <p class="color-mediumgray margin-0 font-em-09 text-right pull-right" *ngIf="item.offerSentAt">You sent offer {{moment(item.offerSentAt).fromNow()}}</p>
+                     </div>
+               </div>
+           </div>
+         </div>
+
+
+         <div *ngIf="selectedItemGroup && infiniteScrollDisabled && fetching === false">
+          <div
+           class="col-xs-12 col-md-12 padding-0 color-bg-white margin-bottom-15 div-white-box-shadow-7 clickable"
+           style="position:relative; border-border-radius:5px; border-right:1px solid #e4e4e4; border-left:1px solid #e4e4e4;"
+           *ngFor="let item of selectedItemGroup, let i = index; trackBy: trackByIdFn;"
+           (click)="viewJob(item.id)"
+           >
+
+              <div class="col-xs-12 col-md-12 padding-bottom-10 padding-top-10">
+                   <div class="display-inlineBlock width-15-px height-15-px bg-blue border-radius-50p padding-top-1 margin-right-5">
+                      <p class="color-text-white font-em-07 text-center">{{i + 1}}</p>
+                   </div>
+                   <div style="position:relative;" class="display-inlineBlock text-center margin-right-10">
+                        <img src="{{item.user.profilePic}}" alt="" style="margin-left:auto; margin-right:auto; border-radius: 50%;" width="44px" height="44px">
+                        <img *ngIf="item.user.verified" src="assets/images/icons/online@2x.png" style="position:absolute; bottom:-6px; right:38%;" width="12px" height="12px" alt="">
+                  </div>
+                  <div class="display-inlineBlock" style="vertical-align:middle;">
+                       <span>
+                           <p class="color-darkgray font-px-14 margin-0 clickable" [routerLink]="['../../profile/' + item.user.id]">{{item.user.firstName}} {{item.user.lastName}}</p>
+                           <p class="color-darkgray font-px-12 margin-0 max-width-400 clickable">{{item.description}}</p>
+                           <p>
+                              <i class="fa fa-map-marker color-gray"></i>
+                              <span class="color-gray font-em-09">{{item.location.city}}, {{item.location.state}}, {{getDistance(item.location.geoJson.coordinates)}}</span>
+                           </p>
+                       </span>
+                  </div>
+                    <span style="position:absolute; top:15px; right:15px;">
+                       <p class="color-textblack font-weight-600">{{item.currencyCode}}{{item.minPrice || 0}} - {{item.currencyCode}}{{item.maxPrice}}</p>
+                    </span>
+                    <span style="position:absolute; bottom:10px; right:15px;">
+                       <i class="color-mediumgray fa fa-clock-o"></i>
+                       <p class="color-mediumgray display-inlineBlock">{{moment(item.scheduleDate).format('DD/MM h:mmA')}}</p>
+                    </span>
+              </div>
+              <div class="col-xs-12 col-md-12 padding-top-10 padding-bottom-10" style="border-top:1px solid #e4e4e4;">
+                    <div class="col-xs-6 col-md-6 padding-0">
+                       <p class="color-mediumgray margin-0 font-em-09 margin-bottom-2">Posted on {{moment(item.createdAt).format('DD/MM')}}</p>
+                       <p class="color-blue margin-0 font-em-09">{{item.numOffers || 0}} offers received</p>
+                    </div>
+                    <div class="col-xs-6 col-md-6 padding-0">
+                       <div class="col-xs-12 col-md-12 padding-0">
+                            <p
+                             class="color-blue margin-0 font-em-09 text-right margin-bottom-2 pull-right"
+                             *ngIf="item.expiresAt && moment(item.expiresAt) > moment()"
+                             >
+                              Expires {{moment(item.expiresAt).format('DD/MM')}}
+                            </p>
+                            <p
+                             class="color-blue margin-0 font-em-09 text-right margin-bottom-2 pull-right"
+                             *ngIf="item.expiresAt && moment(item.expiresAt) <= moment()"
+                             >
+                              Expired
+                            </p>
+                       </div>
+                       <p class="color-mediumgray margin-0 font-em-09 text-right pull-right" *ngIf="item.offerSentAt">You sent offer {{moment(item.offerSentAt).fromNow()}}</p>
+                    </div>
+              </div>
+          </div>
+        </div>
+
+  <sk-three-bounce *ngIf="fetching"></sk-three-bounce>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="col-md-4 col-xs-12">
+
+ <div class="col-xs-12 col-md-12 padding-0 map-wrapper" style="position:relative;">
+
+     <agm-map
+      *ngIf="mapInit"
+      #map
+      [latitude]="lat"
+      [longitude]="lng"
+      [zoom]="zoom"
+      [panControl]="true"
+      [zoomControl]="true"
+      [styles]="mapStyle"
+      (boundsChange)="handleMapBoundsChange($event)"
+      (mapReady)="loadAPIWrapper($event)"
+      >
+      <agm-overlay
+      *ngFor="let item of markers; let i = index"
+      [latitude]="item[0].location.geoJson.coordinates[1]"
+      [longitude]="item[0].location.geoJson.coordinates[0]"
+      [index]="i"
+      [overlays]="overlays"
+      [addOverlayKey]="addOverlayKey"
+      [removeOverlayKey]="removeOverlayKey"
+      [handleOverlayClick]="selectItem"
+      >
+
+        <!-- Grouped marker default  -->
+        <div
+          *ngIf="item.length > 1"
+          class="collapsed"
+          (click)="selectItemGroup(item)"
+          style="position:absolute; background-image:url(assets/images/icons/map_division_2.png); width:195px; height:50px; background-repeat:no-repeat; z-index: 100"
+        >
+        <div class="bg-green border-radius-50p" style="position:absolute; top:7px;left:8px; width:26px; height:26px;">
+            <p
+             class="color-text-white font-weight-600 text-center"
+             style="margin-top:0px;"
+             [ngStyle]="{'font-size': i < 100 ? '18px' : '16px'}"
+             >
+             {{item.length > 9 ? '9+' : item.length}}
+           </p>
+        </div>
+        </div>
+
+        <!-- Single marker default  -->
+        <div
+          *ngIf="selectedItem !== i && item.length === 1"
+          class="collapsed"
+          (click)="selectItem(i)"
+          style="position:absolute; background-image:url(assets/images/icons/map_division_2.png); width:195px; height:50px; background-repeat:no-repeat; z-index: 50"
+        >
+         <div class="bg-blue border-radius-50p" style="position:absolute; top:7px;left:8px; width:26px; height:26px;">
+             <p
+              class="color-text-white font-weight-600 text-center"
+              style="margin-top:0px;"
+              [ngStyle]="{'font-size': i < 100 ? '18px' : '16px'}"
+              >
+              {{1}}
+            </p>
+         </div>
+       </div>
+
+       <!-- Single marker selected  -->
+       <div
+        *ngIf="selectedItem === i && item.length === 1"
+        class="expanded clickable"
+        (click)="viewJob(item[0])"
+        style="margin-top: -23px; position:absolute; background-image:url(assets/images/icons/map_division_1.png); background-repeat:no-repeat; width:195px; height:75px; z-index: 200">
+        <div style="position:absolute; top:8px;left:10px;">
+            <div
+              class="width-40-px height-40-px border-radius-50p"
+              [ngStyle]="{'background-image': 'url(' + item[0].media.fileName + ')', 'background-size': 'cover', 'background-position': 'center'}"
+            >
+            </div>
+        </div>
+        <div style="position:absolute; top:6px;left:60px;">
+           <p class="margin-bottom-0 font-px-13">{{item[0].user.firstName}} {{item[0].user.lastName}}</p>
+           <p class="margin-bottom-0 font-px-10">
+              <img src="assets/images/icons/location_icon.png" class="width-10-px height-10-px" alt="">
+              <span *ngIf="item[0].location.geoJson">{{getDistance(item[0].location.geoJson.coordinates)}}</span>
+           </p>
+           <p class="margin-bottom-0 font-px-10 color-gray">{{(item[0].description.length > 25 ? (item[0].description.substr(0, 25) + '...') : item[0].description)}}</p>
+        </div>
+      </div>
+      </agm-overlay>
+    </agm-map>
+
+
+
+      <div class="col-xs-12 col-md-12 padding-0 margin-top-10">
+         <!-- <input type="checkbox" class="checkbox form-control width-16-px height-16-px display-inlineBlock"> -->
+         <p class="color-mediumgray display-inlineBlock clickable" style="vertical-align:middle;" (click)="redoSearch()">Redo search</p>
+      </div>
+
+</div>
+
+</div>

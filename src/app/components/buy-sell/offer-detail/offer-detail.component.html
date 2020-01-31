@@ -1,0 +1,193 @@
+<div class="modal-body padding-top-0">
+  <div *ngIf="(!user || !model) && !loadError" style="display: flex; justify-content: center">
+      <sk-circle></sk-circle>
+  </div>
+  <div *ngIf="loadError" style="display: flex; justify-content: center">
+      <h3 class="text-left color-text-black font-em-12 font-weight-600 margin-left-10 display-inlineBlock pull-left margin-bottom-20">Custom Offer Has Been Deleted</h3>
+  </div>
+  <div *ngIf="deleteStatus === 1" style="display: flex; justify-content: center">
+      <h3 class="text-left color-text-black font-em-12 font-weight-600 margin-left-10 display-inlineBlock pull-left margin-bottom-20">Custom Offer Has Been Deleted</h3>
+  </div>
+  <div class="row" *ngIf="model && user && (deleteStatus === 0 || deleteStatus === 2) && !loadError">
+    <div class="col-xs-12 col-md-12 padding-0 padding-bottom-10 color-bg-white" style="border-radius:10px; overflow:hidden;">
+      <div class="col-xs-12 col-md-12" style="border-bottom:1px solid #e4e4e4;">
+        <h3 class="text-left color-text-black font-em-12 font-weight-600 margin-left-10 display-inlineBlock pull-left">Custom Offer</h3>
+        <span class="pull-right margin-top-15 margin-right-10 cursor-pointer" data-toggle="modal" data-target="#modal_customOffer">
+          <img (click)="closeModal()" src="assets/images/icons/icon_close2.png" alt="">
+        </span>
+      </div>
+      <div class="col-xs-12 col-md-12 text-left" *ngIf="deleteStatus === 2">
+          <h3 class="text-red text-left color-text-black font-em-12 font-weight-600 margin-left-10 display-inlineBlock pull-left margin-bottom-20">Error Deleting Custom Offer</h3>
+      </div>
+      <!-- <div class="col-xs-12 col-md-12 padding-top-5 padding-bottom-5 color-bg-white text-left">
+        <img src="assets/images/icons/clip.png" alt="">
+        <p class="display-inlineBlock color-gray margin-bottom-0">Link a service</p>
+      </div> -->
+
+      <div class="col-xs-12 col-md-12">
+        <div class="col-xs-12 col-md-12 padding-0">
+          <div class="col-md-12 col-xs-12 text-left dispaly-inleBlock">
+
+            <div
+              (click)="goToService()"
+              *ngIf="model.service"
+              class="col-xs-12 col-md-12 padding-left-0 padding-top-15"
+            >
+              <div style="display: flex">
+                <img src="{{model.service.media.fileName}}" class="display-inlineBlock width-60-px height-60-px" style="border-radius:2px; vertical-align:top;"
+                  alt="">
+                <div>
+                  <div class="display-inlineBlock margin-left-10" style="margin-top: -5px;">
+
+                    <p class="display-inlineBlock color-darkgray font-weight-300 font-px-14 margin-bottom-0 text-left">{{model.service.description}}</p>
+
+                    <p class="color-gray font-weight-300 font-px-10 margin-0 font-px-12 margin-bottom-0 text-left margin-top-3" *ngIf="model.service.location">
+                      <i class="fa fa-map-marker color-gray margin-right-2"></i>{{model.service.location.city + ' ' + model.service.location.country}}, {{""|calcDistance:model.service.location.geoJson:user.location.geoJson}}
+                    </p>
+
+                    <p class="color-gray font-weight-300 font-px-10 margin-0 font-px-12 margin-bottom-5 text-left margin-top-3">
+                      {{model.service.price.currencySymbol}}{{model.service.price.price}} for {{model.service.price.time}} {{model.service.price.timeUnitOfMesure}}
+                    </p>
+
+                    <div>
+                      <p class="color-gray display-inlineBlock font-px-14">
+                        <img src="assets/images/p.png" alt=""> {{model.service.pointValue}}
+                      </p>
+
+                      <p class="color-gray display-inlineBlock text-center font-px-14 margin-left-15 margin-right-15">
+                        <img src="assets/images/icons/brief2.png" width="16px" height="16px" alt=""> {{model.service.numOrders}}
+                      </p>
+
+                      <p class="color-gray display-inlineBlock pull-right margin-right-5 font-px-14">
+                        <i class="fa fa-star color-mediumgray"></i> {{model.service.avgRating}}%
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-xs-12 col-md-12 padding-0"
+            style="border-top: 1px solid #e4e4e4; border-bottom:1px solid #e4e4e4;"
+            >
+              <div class="col-xs-3 col-md-3 padding-0 padding-top-15">
+                <p class="color-gray">Custom Price:</p>
+              </div>
+              <div class="col-xs-9 col-md-9 padding-0 padding-top-15">
+                {{model.currencySymbol}}{{model.price}}
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-md-12 padding-0">
+              <div class="col-xs-3 col-md-3 padding-0 padding-top-15">
+                <p class="color-gray">Description:</p>
+              </div>
+              <div class="col-xs-9 col-md-9 padding-0 padding-top-15 padding-bottom-15">
+                {{ model.description }}
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-md-12 padding-0" style="border-top:1px solid #e4e4e4; border-bottom:1px solid #e4e4e4;">
+              <div class="padding-top-10 padding-bottom-10 color-gray"> Work Completes in {{model.workDuration}} {{model.workDurationUom}} after start
+              </div>
+
+              <div class="col-xs-12 col-md-12 padding-0">
+                <div class="col-xs-3 col-md-3 padding-0 padding-top-10">
+                  <p class="color-gray">Delivery Method:</p>
+                </div>
+                <div class="col-xs-6 col-md-6 padding-0 padding-top-10">
+                  <div>
+                    <ng-container *ngIf="model.fulfillmentMethod.local">
+                      At Customer Location
+                    </ng-container>
+
+                    <ng-container *ngIf="model.fulfillmentMethod.online">
+                      Online
+                    </ng-container>
+
+                    <ng-container *ngIf="model.fulfillmentMethod.shipement">
+                      Shippement
+                    </ng-container>
+
+                    <ng-container *ngIf="model.fulfillmentMethod.store">
+                      At Store
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="col-xs-3 col-md-3 padding-0 padding-top-10" *ngIf="!model.fulfillmentMethod['online']">
+                  <img src="assets/images/get_direction.png" alt="">
+                  <p class="color-gray display-inlineBlock font-em-11">Get Directions</p>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-12 padding-0" *ngIf="model.fulfillmentMethod.local">
+                <img src="assets/images/icons/icon_location.png" class="width-12-px height-12-px" alt="">
+                <p *ngIf="model.fulfillmentMethod.local" class="color-gray display-inlineBlock font-em-08">
+                  {{model.location.city}} {{model.location.country}}, {{""|calcDistance:model.location.geoJson:user.location.geoJson}} Km
+                </p>
+
+                <p *ngIf="model.fulfillmentMethod.store" class="color-gray display-inlineBlock font-em-08">
+                  {{model.location.city}} {{model.location.country}},
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="model.fulfillmentMethod.local || model.fulfillmentMethod.local.store" class="col-xs-12 col-md-12 padding-0">
+
+          <agm-map
+            [styles]="mapStyle"
+            style="height: 200px" *ngIf="model.fulfillmentMethod.local && model.fulfillmentMethod.localServiceRadius" [latitude]="model.location.geoJson.coordinates[0]"
+            [longitude]="model.location.geoJson.coordinates[1]" [zoom]="4">
+
+            <agm-circle [latitude]="model.location.geoJson.coordinates[0]" [longitude]="model.location.geoJson.coordinates[1]" [radius]="parseInt(model.fulfillmentMethod.localServiceRadius) * 1609.34"
+              [fillColor]="'red'" [circleDraggable]="false" [editable]="false">
+            </agm-circle>
+          </agm-map>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div *ngIf="user" class="col-xs-12 col-md-12 padding-left-20 padding-right-20 color-bg-white margin-top-25">
+
+          <li class="pull-left">
+            <a [routerLink]="['/chat' + model.sellerId]" (click)="closeModal()" class="color-blue font-weight-600 font-em-11 margin-0">Chat with
+
+              <ng-container *ngIf="user._id == model.buyerId">
+                {{model.seller.firstName}}
+              </ng-container>
+
+              <ng-container *ngIf="user._id == model.sellerId">
+                {{model.buyer.firstName}}
+              </ng-container>
+            </a>
+          </li>
+
+
+          <li class="pull-right">
+            <a *ngIf="user._id == model.sellerId" class="text-uppercase text- margin-top-40 font-px-14 font-weight-600 padding-6 padding-left-30 padding-right-30"
+              style="border-radius:15px;" (click)="deleteOffer()">Delete</a>
+
+            <a *ngIf="user._id == model.buyerId" class="text-uppercase margin-top-40 bg-blue color-text-white font-px-14 font-weight-600 padding-6 padding-left-30 padding-right-30"
+              style="border-radius:15px;">Accept</a>
+
+            <ng-container *ngIf="user._id == model.sellerId">
+
+              <a routerLink="/chat" (click)="closeModal()" class="text-uppercase margin-top-40 bg-blue color-text-white font-px-14 font-weight-600 padding-6 padding-left-30 padding-right-30"
+                style="border-radius:15px;">Edit</a>
+              <!-- <a routerLink="/chat" (click)="closeModal()" class="text-uppercase margin-top-40 bg-blue color-text-white font-px-14 font-weight-600 padding-6 padding-left-30 padding-right-30"
+                style="border-radius:15px;">Save</a> -->
+
+              <a (click)="closeModal()" class="text-uppercase margin-top-40 font-px-14 font-weight-600 padding-6 padding-left-30 padding-right-30"
+                style="border-radius:15px;">Cancel</a>
+            </ng-container>
+          </li>
+
+        </div>
+      </div>
+    </div>
+  </div>

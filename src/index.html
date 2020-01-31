@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>PointtersAngular</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+  <script>
+    var config = {
+      apiKey: "AIzaSyC_xo8o737Xt7h1WP6AXWHOiiUhcuEdPPw",
+      authDomain: "pointters-firebase.firebaseapp.com",
+      databaseURL: "https://pointters-firebase.firebaseio.com",
+      projectId: "pointters-firebase",
+      storageBucket: "pointters-firebase.appspot.com",
+      messagingSenderId: "300329462225"
+    };
+    firebase.initializeApp(config);
+    // Retrieve Firebase Messaging object.
+    const messaging = firebase.messaging();
+
+    // Add the public key generated from the console here.
+    messaging.usePublicVapidKey(
+      'BPVl2CePNs97ICL3imMG1uNZFz5_vSZFARelcxnt4ymaCz7yaNwjkdZvnEwxg4cgPBTS2WKZyoPQbuI-eumNzZE');
+
+    messaging.requestPermission().then(function () {
+      console.log('Notification permission granted.');
+      // TODO(developer): Retrieve an Instance ID token for use with FCM.
+      // ...
+    }).catch(function (err) {
+      console.log('Unable to get permission to notify.', err);
+    });
+
+    // Get Instance ID token. Initially this makes a network call, once retrieved
+    // subsequent calls to getToken will return from cache.
+    messaging.getToken().then(function (currentToken) {
+      if (currentToken) {
+        console.log(currentToken);
+        sendTokenToServer(currentToken);
+        updateUIForPushEnabled(currentToken);
+      } else {
+        // Show permission request.
+        console.log('No Instance ID token available. Request permission to generate one.');
+        // Show permission UI.
+        updateUIForPushPermissionRequired();
+        setTokenSentToServer(false);
+      }
+    }).catch(function (err) {
+      console.log('An error occurred while retrieving token. ', err);
+      showToken('Error retrieving Instance ID token. ', err);
+      setTokenSentToServer(false);
+    });
+
+    // Callback fired if Instance ID token is updated.
+    messaging.onTokenRefresh(function () {
+      messaging.getToken().then(function (refreshedToken) {
+        console.log('Token refreshed.');
+        // Indicate that the new Instance ID token has not yet been sent to the
+        // app server.
+        setTokenSentToServer(false);
+        // Send Instance ID token to app server.
+        sendTokenToServer(refreshedToken);
+        // ...
+      }).catch(function (err) {
+        console.log('Unable to retrieve refreshed token ', err);
+        showToken('Unable to retrieve refreshed token ', err);
+      });
+    });
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/emojione@3.1.4/lib/js/emojione.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emojione@3.1.4/extras/css/emojione.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.3.1/emojionearea.min.css" />
+  <script src="libraries/jquery/jquery-3.2.0.min.js"></script>
+  <script src="libraries/jquery-labelauty-master/source/jquery-labelauty.js"></script>
+  <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+  <script>
+    if (!String.prototype.includes) {
+      String.prototype.includes = function (search, start) {
+        'use strict';
+        if (typeof start !== 'number') {
+          start = 0;
+        }
+
+        if (start + search.length > this.length) {
+          return false;
+        } else {
+          return this.indexOf(search, start) !== -1;
+        }
+      };
+    }
+
+  </script>
+  <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <!-- <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true&key=AIzaSyAm5XiUoP1swNgmUhouBdH1pVdB2PfkI3o&libraries=places&language=en-US"></script> -->
+  <app-root></app-root>
+
+</body>
+
+<style type="text/css" media="screen">
+  .modal-content {
+    border: none;
+  }
+
+  .modal-backdrop.fade {
+    opacity: 0.5;
+  }
+
+  .modal.fade .modal-dialog {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+
+  .modal.fade.show {
+    opacity: 1;
+  }
+
+</style>
+
+</html>

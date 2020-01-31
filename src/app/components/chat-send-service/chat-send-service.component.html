@@ -1,0 +1,75 @@
+<div class="col-xs-12 col-md-12 padding-10" style="background-color:#F0F0F3;">
+  <p class="color-darkgray display-inlineBlock margin-0 margin-left-10">{{sendServiceMode ? "Send Service" : "Link Service"}}</p>
+  <p class="color-darkgray display-inlineBlock margin-0 margin-right-10 pull-right font-em-09 margin-top-3"></p>
+</div>
+<div class="col-xs-12 col-md-12 padding-0 width-100-p height-40-px form-border-bottom" style="background-color:#FFFFFF;">
+  <p class="color-gray display-inlineBlock margin-0 margin-left-10 line-height-40-px"> <i class="fa fa-search margin-right-5"></i>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="Search services..."
+      [(ngModel)]="query"
+      (ngModelChange)="triggerSearch($event)"
+    >
+  </p>
+  <p class="color-gray display-inlineBlock margin-0 margin-right-10 pull-right font-em-09 margin-top-3"></p>
+</div>
+<div class="col-xs-12 padding-0 chat-services-wrapper" [ngStyle]="{'bottom': -scrollbarWidth + 'px'}">
+  <div
+    class="chat-services"
+    infiniteScroll
+    [scrollWindow]="false"
+    [ngStyle]="{'height': 500 + scrollbarWidth + 'px', 'padding-top': scrollbarWidth + 'px'}"
+    (scrolled)="loadMoreServices()"
+  >
+    <div class="no-services color-gray padding-15 padding-top-0" *ngIf="services.docs.length === 0">No services...</div>
+    <div class="chat-services-content" [ngStyle]="{'margin-top': -scrollbarWidth + 'px'}">
+      <div
+        class="chat-service clickable"
+        *ngFor="let item of services.docs; trackBy: trackByFn;"
+        (click)="sendServiceMode ? sendService(item.service.id) : selectService(item)"
+      >
+        <div class="separator"></div>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-4">
+
+              <div class="text-left display-inlineBlock width-100-p">
+                  <div class="display-inlineBlock service-image" [ngStyle]="{'background-image': 'url(' + (item.service.media ? item.service.media.fileName : '') + ')' }" ></div>
+              </div>
+            </div>
+            <div class="col-xs-8 padding-left-0">
+              <div class="padding-6 display-inlineBlock float-left text-center width-100-p">
+                <p class="color-darkgray font-weight-600 font-px-14 margin-bottom-0 text-left description-text">
+                  {{item.service.description.length > 35 ? item.service.description.substr(0, 35) + '...' : item.service.description }}
+                </p>
+                <p class="color-gray font-weight-300 font-px-10 margin-0 margin-top-5 font-px-12 margin-bottom-5 text-left" *ngIf="item.service && item.service.location && item.service.location[0]">
+                    <i class="fa fa-map-marker"></i> {{item.service.location[0].city}} {{item.service.location[0].state}}, {{getDistance(item.service.location[0].geoJson.coordinates)}}
+                </p>
+
+                <p class="color-gray display-inlineBlock pull-left font-px-14">
+                  <img src="assets/images/p.png" alt="">
+                  {{item.pointValue || 0}}
+                </p>
+
+                <p class="color-gray display-inlineBlock text-center font-px-14">
+                  <i class="fa fa-briefcase color-mediumgray"></i>
+                  {{item.numOrders || 0}}
+                </p>
+
+                <p class="color-gray display-inlineBlock pull-right font-px-14">
+                  <i class="fa fa-star color-mediumgray"></i>
+                  {{item.avgRating || 0}}%
+                </p>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

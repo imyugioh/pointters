@@ -1,0 +1,146 @@
+<div *ngIf="user">
+    <h3 class="font-weight-600">Edit Profile</h3>
+
+
+
+    <!-- <div [formGroup]="form"> -->
+
+
+    <div class="col-xs-12 col-md-12 padding-0 margin-top-40">
+
+        <div class="col-xs-6 col-md-6 padding-left-0">
+            <p class="color-gray">First Name</p>
+            <input type="text" name="fistName" [(ngModel)]="user.firstName" class="form-control">
+        </div>
+
+        <div class="col-xs-6 col-md-6">
+            <p class="color-gray">Last Name</p>
+            <input type="text" name="lastName" [(ngModel)]="user.lastName" class="form-control">
+        </div>
+
+    </div>
+
+
+    <div class="col-xs-12 col-md-12 padding-0 margin-top-40">
+
+        <img [src]="user.profilePic" class="margin-right-20" width="104px" height="104px" alt="">
+
+        <p class="color-darkgray display-inlineBlock">Update Profile Photo</p>
+        <div class="btn-fileupload">
+            <input type="file" accept="image/*" (change)="onUpdateProfilePhoto($event)">
+        </div>
+
+    </div>
+
+    <div class="row">
+            <div class="col-xs-12 col-md-12 margin-top-20  padding-bottom-10">
+                    <input style="display: none" id="imgup" type="file" multiple accept="image/*,video/*" (change)="onUploadBackground($event)">
+                    
+                    <div class="d-flex">
+                        <p class="color-darkgray">Add a Cover Photo ( 1400px by 400px )</p>
+                        <label for="imgup" style="margin-left: auto">
+                            <img src="assets/images/icons/Symbol1@2x.png" class="pull-right" width="32px" height="32px"
+                                alt="">
+                        </label>    
+                    </div>
+            
+                </div>
+            
+            
+                <div class="col-xs-12 col-md-12 padding-20 padding-top-0" style="position:relative;">
+            
+            
+                    <div *ngIf="loading">
+                        <sk-circle></sk-circle>
+                    </div>
+            
+                    <swiper [config]="swiperConfig">
+                        <div *ngFor="let media of medias; let i = index;">
+                            <div class=" imgstyleFull padding-0" style="height: 200px;background-color:#F0F0F3; display:flex; justify-content:center; align-content:center; align-items:center;">
+                                <img style="width: 100%" *ngIf="media.mediaType.startsWith('image')" [src]="media.fileName">
+            
+                                <div class="position: relative" *ngIf="media.mediaType.startsWith('video')">
+                                    <video width="100%" [src]="media.fileName"> </video>
+                                </div>
+            
+                                <img src="assets/images/icons/icon_close.png" style="position:absolute; top:5px; right:5px; z-index:1;" alt="" (click)="onRemoveImageItem(i);">
+                            </div>
+                        </div>
+            
+                    </swiper>
+            
+                </div>
+            
+    </div>
+
+
+
+    <div class="col-xs-12 col-md-12 padding-left-0 margin-top-40">
+
+        <p class="color-gray">Email (www.pointters.com/)</p>
+        <input readonly type="text" [ngModel]="user.email" class="form-control" placeholder="peter_homes">
+    </div>
+
+    <div class="col-xs-12 col-md-12 padding-left-0 margin-top-40">
+        <p class="color-gray">Company</p>
+        <input type="text" class="form-control color-darkgray" placeholder="abc company">
+    </div>
+
+
+    <div class="col-xs-12 col-md-12 padding-left-0 margin-top-40">
+        <p class="color-gray">About me</p>
+        <textarea name="" rows="6" class="form-control"></textarea>
+    </div>
+
+    <div class="col-xs-12 col-md-12 padding-left-0 margin-top-40">
+        <p class="color-gray">Education</p>
+        <input type="text" class="form-control color-darkgray" placeholder="University of Chicago">
+    </div>
+
+    <div class="col-xs-12 col-md-12 padding-left-0 margin-top-40">
+        <p class="color-gray">Insurance</p>
+        <input type="text" class="form-control color-darkgray" placeholder="Lorem ipsum">
+    </div>
+
+    <div class="col-xs-12 col-md-12 padding-left-0 margin-top-40">
+        <p class="color-gray">Awards</p>
+        <input type="text" class="form-control color-darkgray" placeholder="Lorem ipsum">
+    </div>
+
+    <div class="col-xs-12 col-md-12 padding-left-0 margin-top-40">
+
+        <p class="color-gray">Phone number
+            <span class="color-blue font-em-09 font-weight-500 margin-left-10">(Private)</span>
+        </p>
+        <input type="tel" class="form-control color-darkgray" placeholder="+1 415 *****00 ">
+
+    </div>
+
+    <div class="col-xs-12 col-md-12 padding-left-0 margin-top-40">
+        <p class="color-gray">Location</p>
+        <div class="d-flex">
+                <input type="text" readonly class="form-control"
+                style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+                value="{{ location && ( location.city + ' ' + location.country ) }}">
+
+                <button (click)="getCurrentLocation()" type="button" 
+                style="border-top-left-radius: 0; border-bottom-left-radius: 0" class="btn btn-default">
+                    <i class="fa fa-map-marker"></i>
+                </button>
+
+            </div>
+        <!-- </div> -->
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-12 col-md-12 padding-0 margin-top-20">
+
+        <li class="display-inlineBlock padding-top-12 pull-right">
+            <a (click)="onSave();" class="text-uppercase margin-top-40 bg-blue color-text-white font-px-14 font-weight-600 padding-6 padding-left-15 padding-right-15"
+                style="border-radius:15px;">Save</a>
+        </li>
+
+        <li class="display-inlineBlock padding-top-12 pull-right margin-right-20">
+            <a (click)="onCancel();" class="margin-top-40 font-px-14 font-weight-600 color-darkgray text-uppercase">Cancel</a>
+        </li>
+    </div>
+</div>

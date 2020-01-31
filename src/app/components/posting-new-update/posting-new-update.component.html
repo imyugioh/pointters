@@ -1,0 +1,185 @@
+<!-- <div (click)="clickNewUpdate();" id="post_new_update" class="col-xs-12 col-md-12 div-white-box-shadow color-bg-white padding-15 margin-bottom-30" style="border-radius:12px;"> -->
+<div *ngIf="user" id="post_new_update" class="col-xs-12 col-md-12 div-white-box-shadow color-bg-white padding-15 margin-bottom-30"
+  style="border-radius:12px; position: relative;">
+
+  <div *ngIf="loading" class="overlay">
+    <sk-circle></sk-circle>
+  </div>
+
+  <div class="margin-bottom-10 margin-left-10 text-danger text-small" *ngIf="showMessageError">
+    Please enter post message
+  </div>
+  <div>
+    <div class="col-md-1 col-xs-2 padding-0">
+      <img [src]="user.profilePic" class="border-radius-50-p" width="44px" height="44px" alt="">
+    </div>
+
+    <div class="col-md-10 col-xs-8 padding-left-0">
+      <p class="post-addtext color-gray font-weight-300 margin-top-13 font-px-16 margin-left-12">
+        <textarea 
+          style="border: none;resize: none;width:100%" class="no-outline"
+        auto-grow type="text" [(ngModel)]="message" placeholder="Write about your post update" (keypress)="onWrite()"> </textarea>
+      </p>
+    </div>
+
+    <div class="col-md-1 col-xs-2 padding-0" style="position: relative;">
+      <div class="btn-fileupload">
+        <input type="file" multiple accept="image/*,video/*" (change)="onUploadMedia($event)">
+      </div>
+      <img src="assets/images/icons/Symbol1@2x.png" class="border-radius-50-p pull-right margin-top-6" width="32px" height="32px"
+        alt="">
+    </div>
+
+  </div>
+
+  <div [hidden]="!isEditing">
+    <div class="col-xs-12 col-md-12 padding-0 margin-top-20 text-center">
+
+      <swiper [config]="swiperConfig" *ngIf="medias.length > 0">
+        <div class="media-container" *ngFor="let media of medias; let i = index">
+
+          <div class="media-element-close" (click)="onRemoveMedia(i)">
+            <i class="fa fa-close"></i>
+          </div>
+
+          <div *ngIf="media.type.startsWith('image')" style="height: 300px; width: 100%;background-size: cover;background-position: center center;"
+            [ngStyle]="{'background-image': 'url(' + media.path  +')'}"></div>
+
+          <video style="width: 100%" class="media-element" *ngIf="media.type.startsWith('video')" height="300">
+            <source [src]="media.path"> Your browser does not support the video tag.
+          </video>
+
+        </div>
+      </swiper>
+    </div>
+
+    <div *ngIf="tag">
+
+      <div *ngIf="tag.type == 'service'" class="d-flex col-xs-12 col-md-12 padding-top-15 padding-bottom-10 margin-top-20 bg-silver"
+        style="border-radius:6px;">
+        <div class=" padding-0">
+          <img src="assets/images/icons/tag@2x.png" class="border-radius-50-p" width="32px" height="32px" alt="">
+        </div>
+        <div class=" padding-0">
+          <div class=" padding-2 color-bg-white" style="border-radius:15px;">
+            <div class="d-flex padding-left-5 padding-right-5">
+              <div class="padding-0 text-center margin-right-15">
+                <img src="{{tag.service.media[0].fileName}}" class="border-radius-50-p" width="24px" height="24px" alt="">
+              </div>
+              <div class="cursor-pointer padding-left-5 padding-right-0">
+                <p class="color-darkgray margin-0 font-em-07">{{tag.service.description}} by {{tag.service.seller.firstName}} {{tag.service.seller.lastName}}</p>
+                <p class="color-darkgray margin-0 margin-top-0 font-em-07">
+                  <span></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-left: auto" class="padding-0">
+          <img src="assets/images/icons/close.png" class="margin-top-3 cursor-pointer" (click)="tagList = null;tag = null;" alt="">
+        </div>
+      </div>
+
+      <div *ngIf="tag.type == 'user'" class="d-flex col-xs-12 col-md-12 padding-top-15 padding-bottom-10 margin-top-20 bg-silver"
+        style="border-radius:6px;">
+        <div class=" padding-0">
+          <img src="assets/images/icons/tag@2x.png" class="border-radius-50-p" width="32px" height="32px" alt="">
+        </div>
+        <div class=" padding-0">
+          <div class=" padding-2 color-bg-white" style="border-radius:15px;">
+            <div class="d-flex padding-left-5 padding-right-5">
+              <div class="padding-0 text-center margin-right-15">
+                <img src="{{tag.user.profilePic}}" class="border-radius-50-p" width="24px" height="24px" alt="">
+              </div>
+              <div class="cursor-pointer padding-left-5 padding-right-0">
+                <p class="color-darkgray margin-0 font-em-07">{{tag.user.firstName}} {{tag.user.lastName}}</p>
+                  <p class="color-darkgray margin-0 margin-top-0 font-em-07"> {{ tag.user.categories.join(", ") }} </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-left: auto" class="padding-0">
+          <img src="assets/images/icons/close.png" class="margin-top-3 cursor-pointer" (click)="tagList = null;tag = null;" alt="">
+        </div>
+      </div>
+    </div>
+
+
+
+    <ng-select *ngIf="!tag" class="custom" [items]="tagList" bindLabel="service" [(ngModel)]="tag" [typeahead]="tagInput" placeholder="Tag a Service or Service provider">
+
+
+      <ng-template ng-option-tmp let-item="item" let-index="index">
+
+        <div *ngIf="item.type == 'service'">
+          <div class="col-md-1 col-xs-2 padding-0">
+            <img src="{{item.service.media[0].fileName}}" class="border-radius-50-p" width="32px" height="32px" alt="">
+          </div>
+          <div class="cursor-pointer col-md-8 col-xs-7 padding-0">
+            <p class="color-darkgray margin-0 font-px-12">{{item.service.description}} by {{item.service.seller.firstName}} {{item.service.seller.lastName}}</p>
+            <div class="col-xs-12 col-md-12 padding-0 margin-top-3">
+              <p class="display-inlineBlock margin-right-8" style="color:#484848;">
+                <img src="assets/images/p.png" alt=""> {{item.service.pointValue}}
+              </p>
+              <p class="display-inlineBlock margin-left-8 margin-right-8" style="color:#484848;">
+                <i class="fa fa-briefcase color-mediumgray"></i>
+                {{item.service.numOrders}}
+              </p>
+              <p class="display-inlineBlock margin-left-8" style="color:#484848;">
+                <i class="fa fa-star  color-mediumgray"></i>
+                {{item.service.avgRating}}
+              </p>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-3 padding-0">
+            <p class="font-px-12 color-gray">
+              <p *ngIf="item.service.fulfillmentMethod.local || item.service.fulfillmentMethod.store || item.service.fulfillmentMethod.shipment"
+                class="font-em-09 color-mediumgray">
+                <span class="fa fa-map-marker"></span> {{item.service.location[0].city}} , {{item.service.location[0].province}} km
+              </p>
+
+              <p *ngIf="!(item.service.fulfillmentMethod.local || item.service.fulfillmentMethod.store || item.service.fulfillmentMethod.shipment)"
+                class="font-em-09 color-mediumgray">
+                Online
+              </p>
+
+          </div>
+        </div>
+
+
+        <div *ngIf="item.type == 'user'">
+          <div class="col-md-1 col-xs-2 padding-0">
+            <img src="{{item.user.profilePic}}" class="border-radius-50-p" width="32px" height="32px" alt="">
+          </div>
+          <div class="cursor-pointer col-md-8 col-xs-7 padding-0">
+            <p class="color-darkgray margin-0 font-px-12">{{item.user.firstName}} by {{item.user.lastName}} </p>
+            <div class="col-xs-12 col-md-12 padding-0 margin-top-3">
+              <p class="display-inlineBlock margin-right-8" style="color:#484848;">
+                {{item.user.categories.join(", ")}}
+              </p>
+
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-3 padding-0">
+            <p class="font-px-12 color-gray">
+              <i class="fa fa-map-marker color-gray font-px-14"></i>
+              {{item.user.location.city}}, {{item.user.location.state}}
+            </p>
+          </div>
+        </div>
+
+      </ng-template>
+
+    </ng-select>
+
+
+    <div class="col-xs-12 col-md-12 padding-top-15 padding-bottom-10">
+      <li id="li_post" onclick="" class="display-inlineBlock padding-top-12 pull-right">
+        <a [ngClass]="{'disabled' : !message || message.length == 0}" (click)="onPost()" class="text-uppercase margin-top-40 bg-blue color-text-white font-px-14 font-weight-600 padding-6 padding-left-20 padding-right-20"
+          style="border-radius:15px;">Post</a>
+      </li>
+      <li id="post_new_update_cancel" class="display-inlineBlock padding-top-12 pull-right margin-right-20">
+        <a (click)="isEditing=false" class="margin-top-40 font-px-14 font-weight-600 color-darkgray text-uppercase">Cancel</a>
+      </li>
+    </div>
+  </div>
