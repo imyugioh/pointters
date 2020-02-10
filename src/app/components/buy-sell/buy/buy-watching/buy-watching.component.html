@@ -1,0 +1,84 @@
+<div *ngIf="user" id="index_contentarea" class="watching_likes col-md-9 col-sm-7 col-xs-12 margin-top-30 padding-bottom-200">
+
+
+    <!-- <div class="col-xs-12 col-md-12">
+        <h4 class="color-darkgray margin-bottom-25 margin-top-20 font-weight-600">1 week ago</h4>
+    </div> -->
+
+    <div class="d-flex justify-content-center">
+        <div class="margin-top-100 text-bold text-center" style="max-width: 350px" *ngIf="models && models.length <= 0">
+            <img style="width: 80px; height: 80px" src="assets/images/icons/male-job-search-symbol@2x.png">
+            <h4 class="text-bold"> You don't watch any services, you can explore services here</h4>
+            <button [routerLink]="['/home']" class="btn btn-default margin-top-30 text-bold" style="border-radius: 30px; border:none; color: white;background: #00B4F1; padding: 10px 20px"> Explore Services</button>
+        </div>            
+    </div>
+
+    <div class="col-xs-12 col-md-10 padding-0 d-flex" style="flex-wrap: wrap;">
+
+        <div *ngFor="let model of models"
+         class="padding-right-0 margin-bottom-40 sub_div_wrapper">
+
+            <div class="col-md-11 col-xs-11 padding-0 sub_div div-white-box-shadow-7 div-white-box-shadow" style="max-width:250.5px; border-radius:15px;">
+
+                <div [routerLink]="['/service/detail', model.service.id]" 
+                    class="col-md-12 col-xs-12 sub_div_image cursor-pointer"
+                    [ngStyle]="{'background-image': 'url(' + model.service.media.fileName + ')' }">
+                </div>
+
+                <div class="col-md-12 col-xs-12 padding-top-10">
+                    <h4 [routerLink]="['/service/detail', model.service.id]" class="cursor-pointer text-bold">{{model.service.tagline | truncateToWord:20}}</h4>
+                    <p class="font-em-09 margin-bottom-5">
+                        {{model.service.prices.currencySymbol}}{{model.service.prices.price}}
+                        <span *ngIf="model.service.prices.priceWithoutDiscount" class="color-blue" style="text-decoration: line-through;">
+                            {{model.service.prices.currencySymbol}}{{model.service.prices.priceWithoutDiscount}}
+                        </span> 
+                        for {{model.service.prices.time}} per {{model.service.prices.timeUnitOfMeasure}}
+                    </p>
+                    <p class="font-em-09 color-mediumgray">
+                        <span class="fa fa-map-marker"></span> {{model.service.location[0].city}} , {{model.service.location[0].state}}, {{ user && ( turf(model.service.location[0].geoJson,
+                            user.location.geoJson) | truncateNumber) }} km
+                    </p>
+                </div>
+
+                <div class="col-xs-12 col-md-12 sub_div_description">
+
+                    <div class="col-md-4 col-xs-4 padding-0 text-left">
+                        <img src="assets/images/p.png" alt="">
+                        <p class="color-mediumgray" style="font-size:12px;">{{model.pointValue}}</p>
+                    </div>
+
+                    <div class="col-md-4 col-xs-4 padding-0 text-center">
+                        <img src="assets/images/icons/brief2.png" style="vertical-align:text-bottom;" alt="">
+                        <p class="color-mediumgray" style="font-size:12px;">{{model.numOrders}}</p>
+                    </div>
+
+                    <div class="col-md-4 col-xs-4 padding-0 text-right">
+                        <i class="fa fa-star color-mediumgray"></i>
+                        <p class="color-mediumgray" style="font-size:12px;">{{model.avgRating}}%</p>
+                    </div>
+
+                </div>
+
+                <div [routerLink]="['/profile', model.user.id]" id="service_detail_link" class="cursor-pointer col-xs-12 col-md-12 padding-top-6 sub_div_footer" style="border-top:1px solid #e9e9e9;">
+
+                    <img [src]="model.user.profilePic" alt="img" style="border-radius:50%; width:24px; height:24px; margin-right:2px;">
+                    <p class="color-mediumgray font-em-09">{{model.user.firstName}} {{model.user.lastName}}</p>
+                    <p *ngIf="model.service.promoted" class="p2 color-blue font-weight-600 pull-right margin-top-4" style="font-size:12px;">Promoted</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="max-width: 550px; position: relative">
+        <sk-three-bounce *ngIf="fetching"></sk-three-bounce>
+      </div>
+   
+    <div *ngIf="page < maxPage" #scroll class="col-md-12 col-sm-12 sub_div col-xs-12 div-white-box-shadow margin-bottom-30 padding-0" style="border:none !important;"></div>
+
+
+
+</div>
