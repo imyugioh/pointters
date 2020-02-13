@@ -1,0 +1,101 @@
+<div class="row" *ngIf="model && user">
+  <div class="col-xs-12 col-md-12 padding-0 color-bg-white" style="border-radius:10px; overflow:hidden;">
+    <div class="col-xs-12 col-md-12 bg-F0F0F3" style="border-bottom:1px solid #e4e4e4;">
+      <h3 class="text-left color-text-black font-em-11 margin-bottom-15 font-weight-600 margin-left-10 display-inlineBlock pull-left">Live Offer Request</h3>
+      <span (click)="closeModal()" class="pull-right margin-top-15 margin-right-10 cursor-pointer" data-toggle="modal" data-target="#modal_liveOfferRequested">
+        <img src="assets/images/icons/icon_close2.png" alt="">
+      </span>
+    </div>
+    <div class="col-xs-12 col-md-12 color-bg-white text-left" style="border-bottom:1px solid #e4e4e4;">
+      <div class="col-xs-3 col-md-2 padding-top-10">
+        <p class="color-gray">Category:</p>
+      </div>
+      <div class="col-xs-9 col-md-10 padding-top-10">
+        {{model.category.name}}
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-12">
+      <div class="col-xs-3 col-md-2 padding-top-15 padding-bottom-15">
+        <p class="color-gray text-left margin-0">Description:</p>
+      </div>
+      <div class="col-xs-9 col-md-10 padding-top-15 padding-bottom-15">
+        {{model.description}}
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-12" style="border-top:1px solid #e4e4e4; border-bottom:1px solid #e4e4e4;">
+      <div class="col-xs-3 col-md-2 padding-top-10">
+        <p class="color-gray">Schedule:</p>
+      </div>
+      <div class="col-xs-9 col-md-10 padding-top-10">
+        {{model.scheduleDate}}
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="col-xs-12 col-md-12 padding-left-20 padding-right-20 color-bg-white margin-top-25">
+      <div class="col-xs-12 col-md-12">
+        <p class="color-gray text-left">Media:</p>
+      </div>
+      <div class="col-xs-12 col-md-12" *ngIf="model && model.media">
+
+        <swiper [config]="swiperConfig">
+          <div *ngFor="let media of model.media">
+            <img src="{{media.fileName}}" class="height-150-px" style="border-radius:2px;" alt="">
+          </div>
+
+        </swiper>
+
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-12 padding-left-20 padding-right-20 color-bg-white margin-top-25">
+
+      <div class="col-xs-12 col-md-12">
+        <div class="col-xs-3 col-md-2 padding-0 padding-top-10">
+          <p class="color-gray text-left">Price Range:</p>
+        </div>
+        <div class="col-xs-9 col-md-10 padding-0 padding-top-10">
+          {{model.currencyCode}}{{model.minPrice}} - {{model.currencyCode}}{{model.maxPrice}}
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-md-12">
+        <div class="col-xs-3 col-md-2 padding-0 padding-top-10">
+          <p class="color-gray text-left">Location:</p>
+        </div>
+        <div class="col-xs-9 col-md-10 padding-0 padding-top-10">
+          {{model.location.postalCode}}, {{model.location.province}}, {{model.location.city}}, {{model.location.state}}
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-md-12">
+        <div class="col-xs-3 col-md-2 padding-0 padding-top-10">
+          <p class="color-gray text-left">Expires On</p>
+        </div>
+        <div class="col-xs-9 col-md-10 padding-0">
+          {{model.expireIn}}
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="col-xs-12 col-md-12 padding-20 padding-left-40 padding-right-40 bg-F0F0F3 margin-top-25">
+
+      <li class="pull-left">
+        <p routerLink="/chat" (click)="closeModal()" class="color-blue font-weight-600 font-em-11 margin-0">Chat with John</p>
+      </li>
+
+      <li class="pull-right">
+        <a class="text-uppercase margin-top-40 bg-blue color-text-white font-px-14 font-weight-600 padding-6 padding-left-30 padding-right-30"
+          style="border-radius:15px;">Accept</a>
+      </li>
+
+    </div>
+
+  </div>
+
+</div>

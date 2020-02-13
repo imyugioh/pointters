@@ -1,0 +1,16 @@
+<div class="modal-body">
+
+  <div *ngIf="!user || !model" style="display: flex; justify-content: center">
+    <sk-circle></sk-circle>
+  </div>
+
+  <app-request-detail-content
+    [id]="id"
+    [closeModal]="closeModal"
+    [user]="user"
+    [model]="model"
+    [modalMode]="true"
+  >
+
+  </app-request-detail-content>
+</div>
