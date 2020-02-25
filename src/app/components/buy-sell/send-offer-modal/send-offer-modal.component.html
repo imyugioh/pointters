@@ -1,0 +1,276 @@
+<div class="modal-body modal-content text-center padding-0 width-600-px margin-left-right-auto color-bg-white border-none">
+  <div *ngIf="!model" style="display: flex; justify-content: center">
+    <sk-circle></sk-circle>
+  </div>
+ <div *ngIf="model" class="col-xs-12 col-md-12 padding-0 color-bg-white" style="border-radius:10px; overflow:hidden;">
+    <div class="col-xs-12 col-md-12 bg-F0F0F3" style="border-bottom:1px solid #e4e4e4;">
+         <h3 class="text-left color-text-black font-em-11 margin-bottom-15 font-weight-600 margin-left-10 display-inlineBlock pull-left">Send Offer to Request</h3>
+         <span class="pull-right margin-top-15 margin-right-10 cursor-pointer" data-toggle="modal" (click)="closeModal()" data-target="#modal_sendOfferToRequest">
+             <img src="assets/images/icons/icon_close2.png" alt="">
+         </span>
+    </div>
+
+
+
+     <div class="col-xs-12 col-md-12 padding-top-10 padding-bottom-10 color-bg-white text-left">
+        <p class="color-gray margin-bottom-0 padding-left-15">Live Request</p>
+     </div>
+
+     <div class="col-xs-12 col-md-12">
+         <div class="col-xs-12 col-md-12 padding-0">
+            <div class="col-md-12 col-xs-12 text-left dispaly-inleBlock">
+
+               <div class="col-xs-12 col-md-12 padding-left-0 padding-top-15" style="border-top:1px solid #e4e4e4;">
+
+                    <p style="position:absolute; top:12px; right:0px;">
+                        <i class="fa fa-clock-o color-mediumgray margin-right-3"></i>
+                        <span class="font-px-12 color-darkgray" *ngIf="model.scheduleDate">{{moment(model.scheduleDate).format('DD/MM')}}</span>
+                    </p>
+
+                    <div class="display-inlineBlock width-60-px height-60-px" style="border-radius:2px; vertical-align:top;"
+                    *ngIf="model.media && model.media[0]"
+                    [ngStyle]="{'background-image': 'url(' + model.media[0]['fileName'] + ')', 'background-size': 'cover', 'background-position': 'center'}"
+                    >
+                    </div>
+                    <div class="display-inlineBlock margin-left-10" style="margin-top: -5px;">
+
+                        <p class="display-inlineBlock color-darkgray font-weight-300 font-px-14 margin-bottom-0 text-left">
+                          {{ model.description }}
+                        </p>
+
+                        <p class="color-gray font-weight-300 font-px-10 margin-0 font-px-12 margin-bottom-0 text-left margin-top-3" *ngIf="model.location">
+                            <i class="fa fa-map-marker color-gray margin-right-2"></i>{{model.location.city}}, {{model.location.state}}, {{getDistance(model.location.geoJson.coordinates)}}
+                        </p>
+
+                        <p class="color-gray font-weight-300 font-px-10 margin-0 font-px-12 margin-bottom-5 text-left margin-top-3">$10 for 1 hour</p>
+
+                        <div>
+                            <p class="color-gray display-inlineBlock font-px-14">
+                              <img src="assets/images/p.png" alt=""> 234
+                            </p>
+
+                            <p class="color-gray display-inlineBlock text-center font-px-14 margin-left-15 margin-right-15">
+                              <img src="assets/images/icons/brief.png" width="16px" height="16px" alt=""> 23
+<!--                                  <i class="fa fa-briefcase color-mediumgray"></i>  -->
+                            </p>
+
+                            <p class="color-gray display-inlineBlock pull-right margin-right-5 font-px-14">
+                              <i class="fa fa-star color-mediumgray"></i> 96%
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                 <div class="col-xs-12 col-md-12 padding-0" style="border-top:1px solid #e4e4e4; border-bottom:1px solid #e4e4e4;">
+                    <div class="col-xs-3 col-md-3 padding-0 padding-top-15">
+                        <p class="color-gray">Price:</p>
+                    </div>
+                    <div class="col-xs-9 col-md-9 padding-0">
+                        <input
+                          type="text"
+                          placeholder="Price"
+                          class="form-control color-darkgray height-50-px border-none boxshadow-none"
+                          [textMask]="{mask: priceMask}"
+                          [(ngModel)]="offer.price"
+                          (ngModelChange)="validateForm()"
+                        >
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 padding-0">
+                    <textarea
+                      name="" id="" cols="30" rows="3"
+                      class="color-text-black form-control border-none boxshadow-none padding-0 padding-top-10"
+                      [(ngModel)]="offer.description"
+                      (ngModelChange)="validateForm()"
+                      placeholder="Write your description">
+                    </textarea>
+                </div>
+
+                <!-- <div class="col-xs-12 col-md-12 padding-0" style="border-top:1px solid #e4e4e4; border-bottom:1px solid #e4e4e4;">
+                    <div class="col-xs-12 col-md-9 padding-0 padding-top-8 padding-bottom-8 time-inputs">
+                        <div class="col-xs-3 col-md-2 padding-0 padding-top-8">
+                             <p class="color-gray">Time:</p>
+                        </div>
+                        <div class="col-xs-3 col-md-3 padding-0 margin-top-2" style="border-right:1px solid #e4e4e4;">
+                            <input type="text" class="form-control color-text-black border-none boxshadow-none" >
+                            <span>Weeks</span>
+                        </div>
+                        <div class="col-xs-3 col-md-3 padding-0 margin-top-2" style="border-right:1px solid #e4e4e4;">
+                            <input type="text" class="form-control color-text-black border-none boxshadow-none" >
+                            <span>Days</span>
+                        </div>
+                        <div class="col-xs-3 col-md-3 padding-0 margin-top-2">
+                           <input type="text" class="form-control color-text-black border-none boxshadow-none" >
+                           <span>Hours</span>
+                        </div>
+                    </div>
+
+                </div> -->
+                <div class="time-section padding-top-0">
+                  <p class="create-custom-offer-section-title color-gray font-weight-300">Time to complete work</p>
+                  <div id="custom_inputs" class="col-xs-12 col-md-12 padding-0">
+
+                      <div class="col-xs-8 col-md-8 padding-0 display-inlineBlock" style="position:relative;">
+
+                          <input onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                              class="form-control time-input-left font-px-12 square-right"
+                              [(ngModel)]="offer.workDuration"
+                              (ngModelChange)="validateForm()"
+                              numberOnly>
+
+                          <!-- <p class="p_absolute time-descr">Weeks</p> -->
+
+                      </div>
+
+                      <div class="col-xs-4 col-md-4 padding-0 display-inlineBlock time-select" style="position:relative;">
+
+                          <ng-select
+                            [items]="timeOptions"
+                            [(ngModel)]="offer.workDurationUom"
+                            (ngModelChange)="validateForm()"
+                            bindValue="value"
+                            [clearable]="false"
+                            [searchable]="false"
+                            >
+                          </ng-select>
+
+                          <!-- <p class="p_absolute time-descr">Hours</p> -->
+
+                      </div>
+
+                  </div>
+
+                </div>
+
+
+
+                <div class="col-xs-12 col-md-12 padding-0">
+                    <div class="col-xs-12 col-md-12 padding-0 padding-top-10">
+                        <p class="color-gray">Delivery Method:</p>
+                    </div>
+
+                     <div class="col-xs-12 col-md-12 padding-0 padding-top-10">
+                        <div class="col-xs-6 col-md-6 padding-0">
+                            <p class="color-gray margin-0">Online</p>
+                        </div>
+                        <div class="col-xs-6 col-md-6 padding-0">
+                             <input
+                              type="checkbox"
+                              class="form-control color-text-white bg-blue display-inlineBlock pull-left" style="width:14px; height:14px; vertical-align:middle;"
+                              [(ngModel)]="offer.fulfillmentMethod.online"
+                              (ngModelChange)="validateForm()"
+                              >
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12 padding-0 padding-top-10">
+                        <div class="col-xs-6 col-md-6 padding-0">
+                            <p class="color-gray margin-0">Shipment</p>
+                        </div>
+                        <div class="col-xs-6 col-md-6 padding-0">
+                          <input
+                              type="checkbox"
+                              class="form-control color-text-white bg-blue display-inlineBlock"
+                              style="width:14px; height:14px; vertical-align:middle;"
+                              [(ngModel)]="offer.fulfillmentMethod.shipment"
+                              (ngModelChange)="validateForm()"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12 padding-0 padding-top-10">
+                        <div class="col-xs-6 col-md-6 padding-0">
+                            <p class="color-gray margin-0">Local-at you store locations</p>
+                        </div>
+                        <div class="col-xs-6 col-md-6 padding-0">
+                             <input
+                              type="checkbox"
+                              class="form-control color-text-white bg-blue display-inlineBlock"
+                              style="width:14px; height:14px; vertical-align:middle;"
+                              [(ngModel)]="offer.fulfillmentMethod.store"
+                              (ngModelChange)="validateForm()"
+                              >
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12 padding-0 padding-top-10">
+                        <div class="col-xs-6 col-md-6 padding-0">
+                            <p class="color-gray margin-0">Local-anywhere in the city you service</p>
+                        </div>
+                        <div class="col-xs-6 col-md-6 padding-0">
+                             <input
+                              type="checkbox"
+                              class="form-control color-text-white bg-blue display-inlineBlock"
+                              style="width:14px; height:14px; vertical-align:middle;"
+                              [(ngModel)]="offer.fulfillmentMethod.local"
+                              (ngModelChange)="validateForm()"
+                              >
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12 padding-0 padding-top-10">
+                          <div class="display-inlineBlock" style="position:relative;">
+                               <input
+                                type="number"
+                                min="15"
+                                max="9999"
+                                style="border-radius:15px; border: 1px solid #ddd; height: 30px; width: 120px; padding-right: 10px;"
+                                class="boxshadow-none color-text-black font-weight-600 display-inlineBlock margin-right-10 padding-left-10 font-em-11"
+                                [(ngModel)]="offer.fulfillmentMethod.localServiceRadius"
+                                (ngModelChange)="validateForm()"
+                                >
+                               <p class="color-text-black font-weight-600 display-inlineBlock" style="position:absolute; left:50px; top:5px;">Miles</p>
+                           </div>
+                    </div>
+
+                    <div *ngIf="offer.fulfillmentMethod.shipment" class="col-xs-12 col-md-12 padding-0 padding-top-10">
+                      <shipping-form
+                        [validateInput]="validateForm"
+                        [handleSelectClose]="preventClick"
+                        [address]="shipping.address"
+                        [parcel]="shipping.parcel"
+                        [noPadding]="true"
+                        [useSelect]="user.location && user.location.country === 'US'"
+                      >
+                      </shipping-form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+     </div>
+
+     <div class="col-xs-12 col-md-12 padding-20 padding-left-40 padding-right-40 bg-F0F0F3 margin-top-15">
+       <p class="err-msg" *ngIf="formInvalid">Form contains invalid data</p>
+     </div>
+        <div class="col-xs-12 col-md-12 padding-20 padding-left-40 padding-right-40 bg-F0F0F3 margin-top-10">
+
+            <li class="pull-right">
+                <a
+                  class="text-uppercase margin-top-40 color-text-white font-px-14 font-weight-600 padding-6 padding-left-30 padding-right-30"
+                  style="border-radius:15px;"
+                  [ngClass]="{'btn-disabled': formInvalid, 'bg-blue': !formInvalid}"
+                  (click)="sendOffer()"
+                >
+                  Send
+                </a>
+            </li>
+
+            <li class="pull-right">
+                <a
+                  class="text-uppercase margin-top-40 color-text-black font-px-14 font-weight-600 padding-6 padding-left-30 padding-right-30"
+                  (click)="closeModal()"
+                >
+                Cancel
+               </a>
+            </li>
+
+        </div>
+
+ </div>
+
+</div>
