@@ -1,0 +1,13 @@
+.clickable {
+  cursor: pointer;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.bg-img {
+  background-size: cover;
+  background-position: center;
+}
+.active-conversation {
+  background: #f0f0f4;
+}
