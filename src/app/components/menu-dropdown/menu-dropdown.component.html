@@ -1,0 +1,122 @@
+<div *ngIf="user" class="menu-container">
+    <div class="col-xs-12 col-md-12 padding-20 padding-top-15 padding-bottom-15">
+        <div id="li_myprofile" class="col-xs-6 col-md-5 padding-0">
+            <div class="col-md-3 col-xs-4 padding-0">
+                <img [src]="user ? user.profilePic : ''" class="border-radius-50-p" width="44px" height="44px" alt="">
+            </div>
+            <div class="col-md-9 col-xs-8 margin-top-2 padding-left-10 cursor-pointer">
+                <p class="color-text-black font-weight-300 font-px-14 display-inlineBlock margin-bottom-0 margin-right-5 cursor-pointer">
+                    {{user.firstName + ' ' + user.lastName}}
+                </p>
+                <p class="color-gray font-weight-300 font-px-12 display-inlineBlock margin-bottom-0 margin-top-0 cursor-pointer">
+                    <a routerLink="/profile/me" style="color-gray" routerLinkActive="active">View Profile</a>
+                </p>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-7 padding-0">
+
+            <input id="menu_logout" type="submit" (click)="onClickLogout();" class="text-right pull-right form-control color-blue font-weight-600 font-px-14 height-40-px padding-top-10 border-none boxshadow-none"
+                value="Logout">
+
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-12 padding-0" style="border-top:1px solid #e4e4e4; border-bottom:1px solid #e4e4e4;">
+        <div class="col-xs-12 col-md-12 padding-0">
+            <div class="col-xs-12 col-md-6 padding-left-30 padding-top-20" style="border-right:1px solid #e4e4e4;">
+                <p class="color-darkgray font-px-14 text-bold">Buy</p>
+                <ul class="padding-0">
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/buy/orders" routerLinkActive="active">Orders <span *ngIf="stats && stats.buy.orders > 0">( {{stats.buy.orders}} Active )</span></a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/buy/offers" routerLinkActive="active">Custom Offers <span *ngIf="stats && stats.buy.offers > 0">( {{stats.buy.offers}} Active )</span></a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/buy/request" routerLinkActive="active">Live Offer Request <span *ngIf="stats && stats.buy.requests > 0">( {{stats.buy.requests}} Active )</span></a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/buy/watching" routerLinkActive="active">Watching</a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/buy/likes" routerLinkActive="active">Likes</a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/transaction-history" routerLinkActive="active">Transaction History</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="profileMenu_userSetting" class="col-xs-12 col-md-6 padding-left-30 padding-top-20">
+                <p class="color-darkgray font-px-14 text-bold">Users settings</p>
+                <ul class="padding-0">
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/setting/profile" routerLinkActive="active">Edit Profile</a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/setting/account" routerLinkActive="active">Edit User Settings</a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/setting/notification" routerLinkActive="active">Notification Settings</a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/setting/payment" routerLinkActive="active">Payment Methods</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-12 padding-0">
+            <div class="col-xs-12 col-md-6 padding-left-30 padding-top-20" style="border-right:1px solid #e4e4e4;">
+                <p class="color-darkgray font-px-14 text-bold">Sell</p>
+                <ul class="padding-0 margin-bottom-25">
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/sell/orders" routerLinkActive="active">Orders <span *ngIf="stats && stats.sell.orders > 0">( {{stats.sell.orders}} Active )</span></a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/sell/seller" routerLinkActive="active">Become a Seller </a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/sell/offers" routerLinkActive="active">Offers Sent <span *ngIf="stats && stats.sell.jobs > 0">( {{stats.sell.jobs}} Active )</span> </a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/sell/job" routerLinkActive="active">Job Opportunities <span *ngIf="stats && stats.sell.jobs > 0">( {{stats.sell.jobs}} Active )</span> </a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/sell/membership" routerLinkActive="active">Premium Membership</a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/sell/check" routerLinkActive="active">Background check</a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/sell/verification" routerLinkActive="active">Business Verification</a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/sell/location" routerLinkActive="active">Edit Store Locations</a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/transaction-history" routerLinkActive="active">Transaction History</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="profileMenu_general" class="col-xs-12 col-md-6 padding-left-30 padding-top-20">
+                <p class="color-darkgray font-px-14 text-bold">General</p>
+                <ul class="padding-0 margin-bottom-25">
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/general/following" routerLinkActive="active">Following <span *ngIf="stats && stats.following > 0">( {{stats.following}} Active )</span></a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/general/followers" routerLinkActive="active">Followers <span *ngIf="stats && stats.followers > 0">( {{stats.followers}} Active )</span> </a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <a class="color-gray" routerLink="/general/invite" routerLinkActive="active">Invite Friends</a>
+                    </li>
+                    <li class="padding-top-3 padding-bottom-3">
+                        <button (click)="onClickLogout();" type="submit" class="padding-0 text-left pull-left color-gray border-none boxshadow-none">Logout</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-12 padding-top-15 padding-bottom-15">
+        <p class="color-mediumgray font-em-09 margin-0">About. Get the app . Contact . Privacy Policy . Terms of Conditions</p>
+    </div>
+
+</div>
