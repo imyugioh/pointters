@@ -1,0 +1,29 @@
+<div id="menu_messages" class="col-xs-12 col-md-12 padding-0 messages-wrapper">
+  <div
+    class="messages"
+    infiniteScroll
+    [scrollWindow]="false"
+  >
+
+  <div class="col-xs-12 col-md-12">
+
+    <chat-conversation
+      *ngFor="let item of conversations.docs"
+      [item]="item"
+      [userId]="userId"
+      [dropdownMode]="true"
+      [startConversation]="startConversation"
+    >
+  </chat-conversation>
+
+
+</div>
+</div>
+<div class="vertical-scroll-hide" [ngStyle]="verticalScrollOverlayStyle"></div>
+
+<div id="li_openChat" [ngStyle]="horizontalScrollOverlayStyle" class="col-xs-12 col-md-12 padding-top-15 padding-bottom-15 horizontal-scroll-hide">
+
+  <a [routerLink]="['/chat']"><p class="color-darkgray font-em-09 margin-0">View in message center</p></a>
+
+</div>
+</div>
