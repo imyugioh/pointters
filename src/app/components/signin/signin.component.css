@@ -1,0 +1,10 @@
+.btn-glogin {
+  display: none;
+}
+
+.input-email.has-errors,
+.input-password.has-errors,
+.input-email.has-fberrors,
+.input-password.has-fberrors {
+  background-color: pink;
+}
