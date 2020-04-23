@@ -1,0 +1,89 @@
+
+
+<div class="text-center padding-0 width-500-px margin-left-right-auto color-bg-white">
+        
+    <div class="col-xs-12 col-md-12 padding-50 padding-bottom-30 color-bg-white">
+    
+        <div *ngIf="loading" class="overlay-spinner">
+            <app-spinner [show]="true"></app-spinner>
+        </div> 
+
+        <img src="assets/images/logo.png" class="margin-bottom-40" alt="">
+    
+        <div class="text-danger padding-bottom-10" style="text-align: left;" *ngIf="serror"> {{ serror }} </div>
+        <form class="col-xs-12 col-md-12 padding-0 margin-bottom-30" (ngSubmit)="signupCrendintals()" [formGroup]="crendintals_form">
+    
+            <div class="form-group" [ngClass]="{
+            'has-error': crendintals_form.get('email').invalid && 
+                crendintals_form.get('email').dirty && submited
+        }">
+                <input type="email" formControlName="email" class="input-email form-control" placeholder="Email">
+    
+                <div class="help-block text-small" style="text-align: left" *ngIf="crendintals_form.get('email').invalid && 
+                crendintals_form.get('email').dirty && submited">
+    
+                    <div *ngIf="crendintals_form.get('email').hasError('email')">
+                        invalid email format, please enter a valid email
+                    </div>
+    
+                    <div *ngIf="crendintals_form.get('email').hasError('required')">
+                        email field is required
+                    </div>
+                </div>
+            </div>
+    
+            <div class="form-group" [ngClass]="{
+            'has-error': crendintals_form.get('password').invalid && 
+                crendintals_form.get('password').dirty && submited
+        }">
+    
+                <input type="password" formControlName="password" class="form-control" placeholder="Password">
+    
+                <div class="help-block text-small" style="text-align: left" *ngIf="crendintals_form.get('password').invalid && 
+                crendintals_form.get('password').dirty && submited">
+    
+                    <div *ngIf="crendintals_form.get('password').hasError('minlength')">
+                        password must contain at least 6 password
+                    </div>
+    
+                    <div *ngIf="crendintals_form.get('password').hasError('required')">
+                        password field is required
+                    </div>
+                </div>
+            </div>
+    
+    
+            <button type="submit" class="form-control bg-blue color-text-white font-weight-600 font-px-16 height-40-px padding-top-7 border-none width-400-px">
+                Continue
+            </button>
+    
+            <p class="margin-top-20 font-weight-600">OR</p>
+    
+        </form>
+    
+        <button (click)="signupFacebook()" class="padding-top-12 padding-bottom-12 color-text-white font-weight-600 font-px-15" style="padding-right:110px; padding-left:115px; position:relative; background-color: #475993; border-radius: 2px; outline: none; border: none; width: 100%;">
+            <i class="fa fa-facebook-square color-text-white fa-2x" style="position:absolute; left: 15px; top:8px;"></i>
+            <p class="display-inlineBlock margin-0">Continue with Facebook</p>
+        </button>
+    
+        <!-- <button class="btn-gsignup padding-top-12 padding-bottom-12 color-text-white font-weight-600 font-px-15" style="padding-right:110px; padding-left:135px; position:relative; border:1px solid #e4e4e4; border-radius: 2px; outline: none; width: 100%; background-color: #fff;">
+            <img src="assets/images/icons/google1.png" style="width:24px; height:24px; position:absolute; left: 15px; top:10px;" alt="">
+            <p class="display-inlineBlock color-text-black margin-0">Continue with Google</p>
+        </button> -->
+    
+        <p class="color-gray font-em-09" style="line-height:20px;">By continuing, you agree to Pointter's
+            <br/>
+            <span class="color-darkgray">Terms of Service, Privacy Policy</span>
+        </p>
+    
+        <div class="col-xs-12 col-md-12 padding-0 color-bg-white padding-top-15 padding-bottom-15" style="border-top: 1px solid #e9e9e9;">
+            <p class="color-gray margin-top-5">Already a member?
+                <span (click)="openLoginModal()" style="cursor:pointer;" class="color-blue">Sign In</span>
+            </p>
+        </div>
+    
+  
+    </div>
+</div>
+
+
