@@ -1,0 +1,8 @@
+<div id="index_main" class="col-xs-12 col-md-12 padding-0 padding-bottom-60" style="background-color:rgb(249,249,249)">
+    <div class="col-md-offset-1 col-xs-12 col-md-11 padding-0 padding-top-40 padding-bottom-200">
+        <app-general-sidebar [selectedTab]="tab"></app-general-sidebar>
+        <app-general-following *ngIf="tab=='following'"></app-general-following>
+        <app-general-followers *ngIf="tab=='followers'"></app-general-followers>
+        <app-general-invite *ngIf="tab=='invite'"></app-general-invite>
+    </div>
+</div>

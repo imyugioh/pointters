@@ -1,0 +1,311 @@
+<div style="position: relative" class="text-center padding-0 width-550-px margin-left-right-auto color-bg-white" style="border-radius:3px; border:none;">
+
+
+
+    <div class="d-flex col-xs-12 col-md-12 padding-20" style="background-color: #F0F0F3; border-top-left-radius: 3px;border-top-right-radius: 3px;">
+ 
+        <p class="text-uppercase text-left margin-0 font-weight-600 font-em-11">Edit service</p>
+
+        <button  type="button" class="close" style="margin-left:auto" aria-label="Close" (click)="onCancel()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      
+    </div>
+
+
+  
+
+
+    <div class="col-xs-12 col-md-12 padding-0 color-bg-white div-white-box-shadow-4">
+
+        <div class="jobd padding-21 padding-bottom-10">
+            <input type="text" [(ngModel)]="tagline"/>
+        </div>
+
+        <div class="col-xs-12 col-md-12 padding-20 padding-bottom-10">
+            <p style="color: red;margin-bottom:10px;" [hidden]="!error">{{error}}</p>
+            <textarea id="desc" [(ngModel)]="service.description" class="color-gray width-90-p border-none font-em-12 padding-0" rows="2" type="text"
+                placeholder="Enter Service Description"></textarea>
+
+            <input style="display: none" id="imgup" type="file" multiple accept="image/*,video/*" (change)="onUploadMedia($event)">
+            <label for="imgup">
+                <img src="assets/images/icons/Symbol1@2x.png" class="pull-right" width="32px" height="32px"
+                    alt="">
+            </label>
+
+        </div>
+
+
+        <div class="col-xs-12 col-md-12 padding-20 padding-top-0" style="position:relative;">
+
+
+            <div *ngIf="loading">
+                <sk-circle></sk-circle>
+            </div>
+
+            <swiper [config]="swiperConfig">
+                <div *ngFor="let media of medias; let i = index;">
+                    <div class=" imgstyleFull padding-0" style="height: 156px;background-color:#F0F0F3; display:flex; justify-content:center; align-content:center; align-items:center;">
+                        <img *ngIf="media.mediaType.startsWith('image')" [src]="media.fileName">
+
+                        <div class="position: relative" *ngIf="media.mediaType.startsWith('video')">
+                            <video width="100%" [src]="media.fileName"> </video>
+                        </div>
+
+                        <img src="assets/images/icons/icon_close.png" style="position:absolute; top:5px; right:5px; z-index:1;" alt="" (click)="onRemoveImageItem(i);">
+                    </div>
+                </div>
+
+            </swiper>
+
+        </div>
+
+
+        <!-- <div class="col-xs-12 col-md-12 padding-20 padding-top-0">
+            <select [(ngModel)]="category" class="form-control-custom">
+                    <option value="0" selected>Choose a Service Category</option>
+                    <option *ngFor="let category of categories; let i = index" [ngValue]="i+1">{{ category.name }}</option>
+            </select>
+        </div> -->
+        <div *ngIf="categories.length > 0" class="col-xs-12 col-md-12 padding-20 padding-top-0" (click)="onOpenCategory();">
+
+            <a *ngIf="category>-1" class="form-control-custom text-left dropdown-toggle padding-0 padding-top-5 padding-left-10" data-toggle="dropdown"
+                role="button" aria-haspopup="true" aria-expanded="false" style="border-bottom-right-radius:0px; border-bottom-left-radius:0px; border:1px solid #e4e4e4;">{{categories[category].name}}</a>
+            <a *ngIf="category<0" class="form-control-custom text-left dropdown-toggle padding-0 padding-top-5 padding-left-10" data-toggle="dropdown"
+                role="button" aria-haspopup="true" aria-expanded="false" style="border-bottom-right-radius:0px; border-bottom-left-radius:0px; border:1px solid #e4e4e4;">Choose a Service Category</a>
+
+            <div id="addCategory" class="dropdown-menu boxshadow-none color-bg-white padding-0" style="position:absolute; border:1px solid #e4e4e4; border-radius:5px; width:92.8%; top: 31px; left:20px; border-top-right-radius: 0px; border-top-left-radius: 0px;">
+
+                <ul class="padding-top-8 padding-left-0">
+                    <li *ngFor="let category of categories; let i = index" class="color-darkgray" (click)="onCategory(i)">
+                        <p style="padding: 7px 0 7px 7px; cursor: pointer" *ngIf="category.sub" class="category_li">&nbsp;&nbsp;&nbsp;&nbsp;{{ category.name }}</p>
+                        <p style="padding: 10px 0 10px 10px; cursor: pointer; font-weight: bold" *ngIf="!category.sub" class="category_li">{{ category.name }}</p>
+                    </li>
+                </ul>
+
+            </div>
+
+            <i class="fa fa-caret-down pull-right color-gray padding-4 padding-right-10 color-bg-white" style="position:absolute; right:24px; top: 4px; font-size: 18px;"></i>
+
+        </div>
+
+
+        <div class="col-xs-12 col-md-12 padding-20 padding-top-0">
+
+            <li class="dropdown" style="position:relative;">
+
+                <a (click)="onOpenAddPrice();" class="form-control-custom text-left dropdown-toggle padding-0 padding-top-5 padding-left-10"
+                    style="border-bottom-right-radius:0px; border-bottom-left-radius:0px; border:1px solid #e4e4e4;" data-toggle="dropdown">Add Pricing</a>
+
+                <img (click)="onOpenAddPrice();" src="assets/images/icons/icon_add.png" alt="" class="pull-right" style="position:absolute; right:12px; top:8px;">
+                <div *ngIf="addPrice_opened" class="dropdown-menu boxshadow-none color-bg-white padding-0" style="display:block; position:absolute; border:1px solid #e4e4e4; border-radius:5px; width:100%; top: 31px; border-top-right-radius: 0px; border-top-left-radius: 0px;">
+
+                    <div class="col-xs-12 col-md-12 padding-15">
+
+                        <div class="col-md-3 col-md-12 padding-left-0">
+
+                            <p class="color-darkgray">Price($)</p>
+                            <input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" [(ngModel)]="price_unit.price" class="form-control text-center font-weight-600 color-text-black"
+                                numberOnly>
+
+                        </div>
+
+                        <div class="col-md-9 col-md-12 padding-0">
+
+                            <p class="color-darkgray">Time to complete work</p>
+
+
+                            <div id="custom_inputs" class="col-xs-12 col-md-12 padding-0">
+
+                                <div class="col-xs-4 col-md-4 padding-0 display-inlineBlock" style="position:relative;">
+
+                                    <input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" min="0" max="48" [(ngModel)]="weeks"
+                                        class="form-control" style="border-top-left-radius:3px; border-bottom-left-radius:3px;"
+                                        numberOnly>
+
+                                    <p class="p_absolute">Weeks</p>
+
+                                </div>
+
+                                <div class="col-xs-4 col-md-4 padding-0 display-inlineBlock" style="position:relative;">
+
+                                    <input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" min="0" max="365" [(ngModel)]="days"
+                                        class="form-control" style="border-left:0px;" numberOnly>
+
+                                    <p class="p_absolute">Days</p>
+
+                                </div>
+
+
+                                <div class="col-xs-4 col-md-4 padding-0 display-inlineBlock" style="position:relative;">
+
+                                    <input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" min="0" max="1000" [(ngModel)]="hours"
+                                        class="form-control" style="border-left:0px; border-bottom-right-radius:3px; border-top-right-radius:3px;">
+
+                                    <p class="p_absolute">Hours</p>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-md-12 padding-15">
+
+                        <div *ngIf="errorPrice.length > 0" class="text-small text-danger"> {{ errorPrice }}</div>
+                        <p class="color-darkgray">Description</p>
+                        <textarea rows="2" [(ngModel)]="price_unit.description" class="form-control color-gray padding-0 border-0 boxshadow-none"
+                            placeholder="Description">{{price_unit.description}}</textarea>
+
+                        <a id="li_addService" (click)="onPriceAdd();" class="text-uppercase margin-top-40 bg-blue color-text-white font-px-14 font-weight-600 padding-6 padding-left-20 padding-right-20 pull-right"
+                            style="border-radius:15px;">add price</a>
+
+                        <a id="li_cancel" (click)="onPriceCancel();" class="pull-right margin-right-20 margin-top-45 font-px-14 font-weight-600 color-darkgray text-uppercase">cancel</a>
+
+                    </div>
+
+
+                </div>
+
+                <div id="prices_list" *ngIf="service.prices.length>0">
+
+                    <div *ngFor="let priceItem of service.prices; let i = index" class="div-white-box-shadow padding-10 margin-bottom-10 boxshadow-none text-left">
+
+                        <p class="display-inlineBlock color-gray margin-bottom-0 text-left">{{service.prices[i].price}}$ / {{service.prices[i].time}} {{service.prices[i].timeUnitOfMeasure}}
+                            for {{service.prices[i].description}} service</p>
+
+                        <p id="li_editService" (click)="onPriceEdit(i);" class="text-uppercase font-em-08 padding-2 padding-left-6 padding-right-6 color-bg-white color-gray pull-right display-inlineBlock  margin-bottom-0">Edit</p>
+
+                    </div>
+                </div>
+
+
+
+
+            </li>
+
+        </div>
+
+
+        <div class="col-xs-12 col-md-12 padding-20 padding-top-0">
+
+            <div *ngIf="errorDelivery.length > 0" class="text-small text-danger"> {{ errorDelivery }}</div>
+            <li class="dropdown" style="position:relative;">
+
+                <a (click)="onOpenMethod();" class="form-control-custom text-left dropdown-toggle padding-0 padding-top-5 padding-left-10 boxshadow-none"
+                    style="border:1px solid #e4e4e4;">
+
+                    <ng-container *ngIf="!this.service.fulfillmentMethod.online &&
+                    !this.service.fulfillmentMethod.shipment &&
+                    !this.service.fulfillmentMethod.store &&
+                    !this.service.fulfillmentMethod.local">
+                    Choose Delivery Method
+                </ng-container>
+
+                    <ng-container *ngIf="this.service.fulfillmentMethod.online">
+                        Online,
+                    </ng-container>
+
+                    <ng-container *ngIf="this.service.fulfillmentMethod.shipment">
+                        Shipment,
+                    </ng-container>
+
+                    <ng-container *ngIf="this.service.fulfillmentMethod.store">
+                        Store,
+                    </ng-container>
+
+                    <ng-container *ngIf="this.service.fulfillmentMethod.local">
+                        Local,
+                    </ng-container>
+                </a>
+
+                <i (click)="onOpenMethod();" class="fa fa-caret-down pull-right color-gray" style="position:absolute; right:16px; top: 8px; font-size: 18px;"></i>
+
+
+                <div *ngIf="addMethod_opened" class="dropdown-menu boxshadow-none color-bg-white padding-0" style="display: block; position:absolute; border:1px solid #e4e4e4; border-radius:5px; width:100%; top:30px; border-top-right-radius:0px; border-top-left-radius:0px;">
+
+                    <ul class="padding-20 padding-top-15">
+
+                        <li (click)="onDeliveryMethod('online');">
+                            <p class="display-inlineBlock margin-top-5 color-gray">Online</p>
+                            <input type="checkbox" [(ngModel)]="service.fulfillmentMethod.online" class="form-control color-text-white bg-blue display-inlineBlock pull-right"
+                                style="width:14px; height:14px; vertical-align:middle;">
+                        </li>
+
+                        <li (click)="onDeliveryMethod('shipment');">
+                            <p class="display-inlineBlock margin-top-5 color-gray">Shipment</p>
+                            <input type="checkbox" [(ngModel)]="service.fulfillmentMethod.shipment" class="form-control color-text-white bg-blue display-inlineBlock pull-right"
+                                style="width:14px; height:14px; vertical-align:middle;">
+                        </li>
+
+                        <li (click)="onDeliveryMethod('store');">
+                            <p class="display-inlineBlock margin-top-5 color-gray">Local-at your store locations</p>
+                            <input type="checkbox" [(ngModel)]="service.fulfillmentMethod.store" class="form-control color-text-white bg-blue display-inlineBlock pull-right"
+                                style="width:14px; height:14px; vertical-align:middle;">
+                        </li>
+
+                        <li (click)="onDeliveryMethod('local');">
+                            <p class="display-inlineBlock margin-top-5 color-gray">Local-anywhere in the city you service</p>
+                            <input type="checkbox" [(ngModel)]="service.fulfillmentMethod.local" class="form-control color-text-white bg-blue display-inlineBlock pull-right"
+                                style="width:14px; height:14px; vertical-align:middle;">
+                        </li>
+
+                        <li *ngIf="service.fulfillmentMethod.local" class="margin-top-4 margin-bottom-8">
+
+                            <div class="display-inlineBlock" style="position:relative;">
+
+                                <input type="text" [OnlyNumber]="true" [(ngModel)]="service.fulfillmentMethod.localServiceRadius" style="border-radius:15px; border: 1px solid #ddd; height: 30px; width: 150px; padding-right:  50px;"
+                                    class="boxshadow-none color-text-black font-weight-600 display-inlineBlock margin-right-10 padding-left-10 font-em-11">
+
+                                <p class="color-text-black font-weight-600 display-inlineBlock" style="position:absolute; right:20px; top:5px;">miles</p>
+
+                            </div>
+
+                            <p (click)="onOpenMethod();" class="color-gray display-inlineBlock">within your current location</p>
+
+                        </li>
+
+                        <li (click)="onOpenMethod();">
+                            <p class="color-gray font-em-09">Your local service will not ne posted until you have passed background check</p>
+                        </li>
+
+                        <div class="d-flex justify-content-end">
+                            <a (click)="addMethod_opened = false" class="text-uppercase margin-top-40 bg-blue color-text-white font-px-14 font-weight-600 padding-6 padding-left-20 padding-right-20"
+                                style="border-radius:15px;">Accept</a>
+                        </div>
+
+
+                    </ul>
+
+                </div>
+
+
+            </li>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="col-xs-12 col-md-12 padding-15 padding-right-30" style="border-top: 1px solid #e9e9e9; background-color: #F0F0F3; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;">
+
+        <li (click)="onDelete();" id="li_cancel" class="display-inlineBlock margin-right-20 pull-left">
+            <a class="margin-top-40 font-px-14 font-weight-600 color-darkgray text-uppercase">DELETE</a>
+        </li>
+
+        <li id="li_addService" onclick="" class="display-inlineBlock pull-right">
+            <a (click)="onSave();" class="text-uppercase margin-top-40 bg-blue color-text-white font-px-14 font-weight-600 padding-6 padding-left-20 padding-right-20"
+                style="border-radius:15px;">Save Service</a>
+        </li>
+
+        <li (click)="onCancel();" id="li_cancel" class="display-inlineBlock pull-right margin-right-20">
+            <a class="margin-top-40 font-px-14 font-weight-600 color-darkgray text-uppercase">Cancel</a>
+        </li>
+
+    </div>
+
+</div>

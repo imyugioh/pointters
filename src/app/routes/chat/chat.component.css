@@ -1,0 +1,143 @@
+.clickable {
+  cursor: pointer;
+}
+.chat-header {
+  min-height: 80px;
+}
+.right {
+  float: right;
+}
+.messages {
+  height: 520px;
+  overflow: scroll;
+}
+.messages-content {
+  width: 100%
+}
+.conversations {
+  height: 580px;
+  overflow: scroll;
+  position: absolute;
+  padding-bottom: 100px;
+  width: 100%;
+  /* padding-right: 15px;
+  width: calc(100% + 15px);
+  margin-top: 15px; */
+}
+.text-red {
+  color: rgb(255,45,52) !important;
+}
+.conversations-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 580px;
+}
+.conversations-content {
+  /* margin-top: -15px; */
+}
+.right-text {
+  text-align: right;
+}
+.middlepanel {
+  overflow: hidden;
+}
+#chat-file {
+  display: none;
+}
+.message-search {
+  background: #F0F0F3;
+  border-bottom: 1px solid #e4e4e4;
+}
+.messages-flex-aligner,
+.conversations-placeholder {
+  display: -webkit-flex;
+   display: -ms-flexbox;
+   display: flex;
+   -webkit-box-align: center;
+       -ms-flex-align: center;
+           align-items: center;
+   -ms-flex-pack: distribute;
+       justify-content: space-around;
+   height: 100%;
+   width: 100%;
+}
+.conversations-placeholder {
+  position: absolute;
+  top: 0;
+}
+.no-conversation-wrapper,
+.no-chats-wrapper {
+  text-align: center;
+}
+.no-chats-wrapper img {
+  width: 90px;
+  height: auto;
+  margin-bottom: 20px;
+}
+.no-chats-wrapper button {
+  outline: none!important;
+  border-radius: 20px;
+}
+.no-conversation-wrapper img {
+  width: 76px;
+  height: 76px;
+  margin-bottom: 15px;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.message-input-wrapper {
+  background-color: #F0F0F3;
+  /* margin-top: -15px; */
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 21px;
+  padding-top: 21px;
+}
+.message-input {
+  padding-right: 115px;
+}
+.sidepanel-right {
+  height: 580px;
+  position: relative;
+  /* overflow: hidden; */
+}
+.emoji-wrapper {
+  width: 100%;
+  top: 0;
+  height: 100%;
+  padding-right: 90px;
+}
+.message-input-aligner {
+  z-index: 100;
+  position: relative;
+}
+.message-body {
+  position: absolute;
+  top: 0;
+  width: 75%;
+  height: 100%;
+  z-index: -1;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 10px;
+}
+.message-input {
+  background: #fff;
+  color: transparent;
+  caret-color: black!important;
+  position: absolute;
+  height: 100%;
+}
+.emoji-trigger {
+  position: absolute;
+  right: 84px;
+  top: 0;
+}
+.message-attach {
+  z-index: 101;
+}

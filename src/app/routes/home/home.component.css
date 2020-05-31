@@ -1,0 +1,31 @@
+.clickable {
+  cursor: pointer;
+}
+input[type=radio] {
+  display: none;
+}
+input[type=radio] + label {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  position: relative; 
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  cursor: pointer;
+}
+input[type=radio]:checked + label span {
+  display: inline-block;
+  position: absolute;
+  background: #ccc;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+}
+
+@media screen and (max-width: 993px) {
+  #services-container {
+    justify-content: center !important;
+  }
+}

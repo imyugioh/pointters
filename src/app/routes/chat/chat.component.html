@@ -1,0 +1,262 @@
+<div class="col-xs-12 col-md-12 padding-80 padding-top-30 chat-container" style="background-color:rgb(249,249,249)">
+
+  <div id="index_main" class="col-xs-12 col-md-12 padding-0 color-bg-white div-white-box-shadow" style="border:1px solid #e4e4e4;">
+
+    <div id="index_panel_top" class="col-md-12 col-sm-12 col-xs-12 padding-0" style="border-bottom:1px solid #e4e4e4;">
+
+      <div class="col-xs-12 col-sm-4 col-md-3 padding-0">
+
+        <div class="col-xs-12 col-md-12 padding-21 padding-bottom-12">
+
+          <h4 class="color-text-black font-weight-600 display-inlineBlock">Messages</h4>
+          <!-- <i class="fa fa-edit color-mediumgray pull-right font-px-22 padding-top-10"></i> -->
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="col-xs-12 col-sm-4 col-md-6 padding-21 padding-bottom-12 chat-header clickable"
+        style="border-right:1px solid #e4e4e4; border-left:1px solid #e4e4e4;"
+      >
+
+
+        <div class="col-md-1 col-xs-4 padding-0 clickable">
+          <img *ngIf="conversationPartner"
+          (error)="handleImageError()"
+          src="{{(!profileImageError && conversationPartner['profilePic']) || 'assets/images/icons/oval.png'}}"
+          class="display-inlineBlock border-radius-50-p" width="44px" height="44px" alt="profile pic"
+          [routerLink]="['../../profile/' + (conversationPartner.userId || conversationPartner.id)]"
+          >
+        </div>
+
+        <div class="col-md-9 col-xs-8 margin-top-2 padding-left-10 clickable"
+           *ngIf="conversationPartner"
+          [routerLink]="['../../profile/' + (conversationPartner.userId || conversationPartner.id)]"
+        >
+          <p class="color-text-black font-weight-600 font-px-14 margin-bottom-0 margin-right-5">
+            {{ conversationPartner ? (conversationPartner['firstName'] + ' ' + conversationPartner['lastName']): '' }}
+          </p>
+          <p *ngIf="conversationPartner" class="color-gray font-weight-300 font-px-12 margin-bottom-0 margin-top-0">Online</p>
+        </div>
+
+      </div>
+
+
+      <div class="col-xs-12 col-sm-4 col-md-3 padding-21 padding-bottom-12">
+        <h4 class="color-text-black font-weight-600 display-inlineBlock">Actions</h4>
+        <i data-toggle="dropdown" class="dropdown dropdown-toggle fa fa-bars color-mediumgray pull-right font-px-22 padding-top-10"></i>
+
+        <ul class="dropdown-menu pull-right">
+          <li class="padding-top-5 padding-bottom-5" onclick="return change_rightPanelContent('sendService');" (click)="switchTab(0)"><a>Send Service</a></li>
+          <li class="padding-top-5 padding-bottom-5" onclick="return change_rightPanelContent('sendCustomOffer');" (click)="switchTab(1)"><a>Send Custom Offer</a></li>
+          <!-- <li class="padding-top-5 padding-bottom-5" onclick="return change_rightPanelContent('requestOffer');"><a href="#">Request Offer</a></li> -->
+        </ul>
+
+      </div>
+
+
+    </div>
+
+
+
+
+    <div class="col-xs-12 col-md-12 padding-0">
+
+      <div
+        id="index_panel_left"
+        class="col-xs-12 col-md-3 padding-0 conversations-wrapper"
+      >
+      <div class="message-search padding-15">
+        <input
+          class="form-control message-search-input"
+          placeholder="Search messages..."
+          [(ngModel)]="query"
+          (ngModelChange)="handleMessageSearchChange($event)"
+         />
+      </div>
+      <div class="conversations-placeholder"
+        *ngIf="(!conversations || !conversations.docs || conversations.docs.length === 0)"
+      >
+        <div class="no-chats-wrapper">
+          <img src="assets/images/notalk_1.png" alt="no conversations started" />
+          <p class="color-text-black font-weight-600 font-px-18">You haven't started any conversation yet</p>
+          <!-- <button class="btn btn-default color-text-white bg-blue font-weight-600 padding-left-30 padding-right-30 margin-top-10">Start Chatting</button> -->
+        </div>
+      </div>
+      <div
+        *ngIf="conversations && conversations.docs && conversations.docs.length > 0"
+        class="conversations"
+        infiniteScroll
+        [scrollWindow]="false"
+        [infiniteScrollThrottle]="50"
+        (scrolled)="loadMoreConversations()"
+      >
+      <div class="conversations-content" *ngIf="!searchMode">
+
+          <chat-conversation
+            *ngFor="let item of conversations.docs; trackBy: trackByFn; let i = index;"
+            [item]="item"
+            [dropdownMode]="false"
+            [userId]="userId"
+            [last]="i === conversations.docs.length - 1"
+            [startConversation]="enterConversation"
+            [isActiveConversation]="((conversationPartner && (conversationPartner.userId || conversationPartner.id)) === (item.users && item.users[0] && item.users[0]['userId']))"
+          >
+        </chat-conversation>
+
+        </div>
+        <div class="conversations-content" *ngIf="searchMode">
+          <chat-conversation
+            *ngFor="let item of searchedConversations.docs"
+            [item]="item"
+            [dropdownMode]="false"
+            [userId]="userId"
+            [startConversation]="enterConversation"
+            [isActiveConversation]="((conversationPartner && (conversationPartner.userId || conversationPartner.id)) === (item.users && item.users[0] && item.users[0]['userId']))"
+          >
+        </chat-conversation>
+        </div>
+      </div>
+      </div>
+
+
+      <div id="index_sidepanel_middle" class="col-xs-12 col-sm-4 col-md-6 padding-0 middlepanel" style="min-height:500px; border-right:1px solid #e4e4e4; border-left:1px solid #e4e4e4;">
+        <div
+          class="col-xs-12 col-md-12 padding-0 padding-bottom-70 messages"
+          *ngIf="!hasConversationPartner"
+          [ngStyle]="{'margin-left': scrollbarWidth + 'px'}"
+        >
+        <div class="messages-content" [ngStyle]="{ 'margin-left': -scrollbarWidth + 'px', 'height': '100%' }">
+          <div class="messages-flex-aligner">
+              <div class="no-conversation-wrapper">
+                <img src="assets/images/notalk_2.png" alt="no conversation selected" />
+                <p class="color-text-black font-weight-600 font-px-18">No conversation selected</p>
+              </div>
+          </div>
+        </div>
+        </div>
+
+        <div
+          #scroller
+          class="col-xs-12 col-md-12 padding-0 padding-bottom-70 messages"
+          infiniteScroll
+          [infiniteScrollUpDistance]="2"
+          [infiniteScrollThrottle]="50"
+          [scrollWindow]="false"
+          (scrolledUp)="handleScrollUp()"
+          [ngStyle]="{'margin-left': scrollbarWidth + 'px', 'display': hasConversationPartner ? 'block' : 'none'}"
+        >
+          <div class="messages-content" [ngStyle]="{ 'margin-left': -scrollbarWidth + 'px' }">
+          <div *ngFor="let item of messages.docs; let i = index;" class="message-wrapper">
+            <chat-message
+              *ngIf="item.result && item.result.message && (item.result.message.messageText || (item.result.message.media && item.result.message.media.length > 0))"
+              [item]="item"
+              [chatUser]="user"
+              [userId]="userId"
+              [viewImage]="showImageModal"
+              [chatPartner]="conversationPartner"
+              [last]="i === messages.docs.length - 1"
+            >
+            </chat-message>
+            <chat-message-service
+              *ngIf="item.result && item.result.message && item.result.message.service"
+              [item]="item"
+              [chatUser]="user"
+              [userId]="userId"
+              [user]="user"
+              [chatPartner]="conversationPartner"
+              [last]="i === messages.docs.length - 1"
+            >
+            </chat-message-service>
+            <chat-message-offer
+              *ngIf="item.result && item.result.message && item.result.message.offer"
+              [item]="item"
+              [chatUser]="user"
+              [userId]="userId"
+              [user]="user"
+              [chatPartner]="conversationPartner"
+              [last]="i === messages.docs.length - 1"
+              [showOffer]="showCustomOffer"
+            >
+            </chat-message-offer>
+          </div>
+        </div>
+
+        </div>
+
+
+        <div class="col-xs-12 col-md-12 message-input-wrapper" [ngStyle]="messageInputWrapperStyle" style="background-color:#F0F0F3;">
+
+          <div class="width-500-px padding-0 margin-left-right-auto" style="position:relative;">
+            <div class="message-input-aligner">
+              <!-- <input
+                type="text"
+                class="width-100-p form-control message-input"
+                placeholder=""
+                (keydown)="handleMessageKeydown($event)"
+              > -->
+              <span class="emoji-wrapper"><i id="emojiarea"></i></span>
+              <i class="fa fa-smile-o font-px-24 color-gray margin-5 clickable emoji-trigger"></i>
+            </div>
+            <span style="position:absolute; right:15px; top:0px;" class="message-attach">
+              <label for="chat-file"><i class="fa fa-paperclip font-px-22 color-gray margin-5 clickable"></i></label>
+              <i class="fa fa-paper-plane font-px-22 color-gray margin-5 clickable" (click)="sendChatMessage()"></i>
+              <input (change)="onFileChange($event)" multiple type="file" id="chat-file" />
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+      <div
+        id="index_sidepanel_right"
+        class="col-xs-12 col-sm-4 col-md-3 padding-0 sidepanel-right"
+        [ngStyle]="{'overflow': (activeTab === 0 || linkServiceActive) ? 'hidden' : 'visible'}"
+      >
+
+
+        <chat-actions-default-view *ngIf="activeTab === null && hasConversationPartner"></chat-actions-default-view>
+        <chat-send-service
+          [user]="user"
+          [sendServiceInChat]="sendService"
+          [chatPartnerId]="conversationPartner && conversationPartner.userId"
+          [scrollbarWidth]="scrollbarWidth"
+          [sendServiceMode]="!linkServiceActive"
+          (onLinkService)="onLinkService($event)"
+          *ngIf="(activeTab === 0 && hasConversationPartner) || (linkServiceActive && hasConversationPartner)">
+        </chat-send-service>
+        <chat-send-custom-offer
+          #customOfferForm
+          [user]="user"
+          [toggleLinkService]="toggleLinkService"
+          [goToDefaultView]="goToDefaultView"
+          [linkedService]="linkedService"
+          [deleteLinkedService]="deleteLinkedService"
+          [service]="offerToSend"
+          [chatPartnerId]="conversationPartner && conversationPartner.userId"
+          [sendOffer]="sendOffer"
+          [noServices]="noServices"
+          *ngIf="activeTab === 1 && hasConversationPartner && !linkServiceActive">
+        </chat-send-custom-offer>
+
+
+        <div class="col-xs-12 col-md-12 margin-top-120 margin-bottom-10" *ngIf="activeTab === null && hasConversationPartner">
+
+          <p class="text-color-black font-weight-600 margin-bottom-5 text-center">Quick Send:</p>
+          <p class="color-blue font-weight-600 text-center">
+            <span class="clickable" (click)="switchTab(0)">Service</span> |
+            <span class="clickable" (click)="switchTab(1)">Offer</span>
+            <!-- <span class="clickable">Request</span> -->
+          </p>
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+  </div>
+</div>

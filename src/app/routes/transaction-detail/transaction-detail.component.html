@@ -1,0 +1,63 @@
+<div class="transaction-history padding-top-40 padding-left-50">
+  <div class="col-md-7 max-width-700-px margin-bottom-60">
+      <div class="col-xs-11 col-md-12 color-bg-white div-white-box-shadow padding-left-0 padding-right-0 padding-bottom-0 padding-top-15">
+        <div class="col-md-12">
+          <div class="col-sm-6 padding-0">
+            <p class="color-text-black font-px-20 font-weight-600">Transaction History</p>
+          </div>
+          <div class="col-sm-6 padding-0">
+            <ng-select
+            [placeholder]="'Show all Transactions'"
+            [items]="[]"
+            ></ng-select>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 padding-top-15 padding-bottom-15">
+          <div class="col-sm-6 padding-0 select-right-square">
+            <p class="color-gray margin-bottom-5 text-label">From</p>
+            <ng-select
+              [placeholder]="'Date'"
+              [items]="[]"
+            ></ng-select>
+          </div>
+          <div class="col-sm-6 padding-0 select-left-square">
+            <p class="color-gray margin-bottom-5 text-label">To</p>
+            <ng-select
+              [placeholder]="'Date'"
+              [items]="[]"
+            ></ng-select>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 padding-top-10 padding-bottom-10 border-bottom">
+            <div class="col-xs-3 padding-0">Date</div>
+            <div class="col-xs-8 padding-0">For</div>
+            <div class="col-xs-1 padding-0">Amount</div>
+        </div>
+        <div class="transactions-list">
+          <div class="col-xs-12 col-sm-12 col-md-12 padding-top-10 padding-bottom-10 border-bottom" *ngFor="let item of transactions">
+              <div class="col-xs-3 padding-0 color-gray">{{item.date}}</div>
+              <div class="col-xs-8 padding-0 color-gray">{{item.detail}}</div>
+              <div class="col-xs-1 padding-0 color-text-black">{{item.amount}}</div>
+          </div>
+      </div>
+      </div>
+  </div>
+  <div class="col-sm-12 col-xs-11 col-md-3">
+    <div class="col-xs-11 col-sm-11 col-md-12 padding-left-20 padding-right-20 color-bg-white div-white-box-shadow padding-top-15 padding-bottom-15 margin-small-screen">
+      <p class="color-gray detail-title">Purchases</p>
+      <p class="color-text-black margin-bottom-0 font-px-20">$25</p>
+    </div>
+    <div class="col-xs-11 col-sm-11 col-md-12 padding-left-20 padding-right-20 color-bg-white div-white-box-shadow padding-top-15 padding-bottom-15 margin-top-30">
+      <p class="color-gray detail-title">Active Orders Purchased</p>
+      <p class="color-text-black margin-bottom-0 font-px-20">$234</p>
+    </div>
+    <div class="col-xs-11 col-sm-11 col-md-12 padding-left-20 padding-right-20 color-bg-white div-white-box-shadow padding-top-15 padding-bottom-15 margin-top-30">
+      <p class="color-gray detail-title">Completed Orders Purchased</p>
+      <p class="color-text-black margin-bottom-0 font-px-20">$1234</p>
+    </div>
+    <div class="col-xs-11 col-sm-11 col-md-12 padding-left-20 padding-right-20 color-bg-white div-white-box-shadow padding-top-15 padding-bottom-15 margin-top-30 margin-bottom-30">
+      <p class="color-gray detail-title">Your Balance</p>
+      <p class="color-text-black margin-bottom-0 font-px-20">$55</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,191 @@
+<div id="index_main" class="col-xs-12 col-md-12 padding-0" style="background-color:rgb(249,249,249)"
+  [ngClass]="{'padding-bottom-60': activeTab !== 2}"
+>
+    <div id="index_sidepanel" class="margin-left-50 hidden-xs hidden-sm  col-md-3 col-xs-12 col-sm-offset-1 margin-top-30">
+
+        <!-- Upcoming service -->
+        <div *ngIf="upcoming" class="col-xs-12 col-md-12 padding-0 margin-bottom-20">
+            <h4 class="color-text-black font-weight-600 padding-bottom-15">Upcoming Services</h4>
+            <div class="col-xs-11 col-md-12 padding-left-20 padding-right-0 color-bg-white div-white-box-shadow">
+                <div *ngFor="let service of upcoming" class="col-xs-12 col-md-12 padding-0 padding-top-20 padding-bottom-20" style="position:relative; border-bottom: 1px solid #e9e9e9;">
+                    <div class="col-md-10 col-xs-12 padding-0">
+                        <p class="font-em-11 margin-bottom-3 color-text-black text-capitalize text-bold">{{service.description | truncateToWord:20}}</p>
+                        <p class="font-em-09 margin-bottom-5 color-blue text-bold">{{service.time}}</p>
+                        <p class="font-em-09 margin-bottom-0 color-mediumgray" *ngIf="service.location && service.location[0]">
+                            <span class="fa fa-map-marker padding-right-3"></span>{{service.location[0].city}} , {{service.location[0].country}}, {{ user && ( turf(service.location[0].geoJson,
+                            user.location.geoJson) | truncateNumber) }} km
+                        </p>
+                    </div>
+                    <i class="fa fa-angle-right fa-2x color-mediumgray" style="position:absolute; right:25px; top:25%;"></i>
+                </div>
+
+                <a [routerLink]="['/buy/orders']" class="col-xs-12 col-md-12 padding-0 padding-top-6 padding-bottom-6">
+                    <p class="margin-bottom-2">View more</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- My Dashboard -->
+        <div class="col-xs-12 col-md-12 padding-10" *ngIf="activeTab !== 1">
+            <h4 class="color-text-black font-weight-600 padding-bottom-15">My Dashboard</h4>
+            <div *ngIf="dashboard" class="col-xs-11 col-md-12 padding-left-20 padding-right-0 color-bg-white div-white-box-shadow padding-top-25 padding-bottom-25">
+                <div class="col-xs-12 col-md-12 padding-0">
+                    <div class="col-md-2 col-xs-3 padding-0">
+                        <p class="dashboard_sub_left">{{ dashboard.numOrdersThisWeek }}</p>
+                    </div>
+                    <div class="col-md-10 col-xs-9">
+                        <p class="margin-top-2 text-bold">Orders this week</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-12 padding-0">
+                    <div class="col-md-2 col-xs-3 padding-0">
+                        <p class="dashboard_sub_left ">{{ dashboard.numOffersSentThisWeek }}</p>
+                    </div>
+                    <div class="col-md-10 col-xs-9">
+                        <p class="margin-top-2 text-bold">Offers Sent this week</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-12 padding-0">
+                    <div class="col-md-2 col-xs-3 padding-0">
+                        <p class="dashboard_sub_left">{{ dashboard.numJobs }}</p>
+                    </div>
+                    <div class="col-md-10 col-xs-9">
+                        <p class="margin-top-2 text-bold">Jobs Suggested</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-12 padding-0">
+                    <div class="col-md-2 col-xs-3 padding-0">
+                        <p class="dashboard_sub_left">{{ dashboard.currencySymbol }}{{ dashboard.salesThisMonth }}</p>
+                    </div>
+                    <div class="col-md-10 col-xs-9">
+                        <p class="margin-top-2 text-bold">Sales this month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Searches -->
+        <div class="col-xs-12 col-md-12 padding-0" *ngIf="activeTab === 1">
+            <h4 class="color-text-black font-weight-600 padding-bottom-15">Recent Searches</h4>
+            <div class="col-xs-11 col-md-12 padding-left-20 padding-right-0 color-bg-white div-white-box-shadow padding-top-25 padding-bottom-0">
+                <div class="col-xs-12 col-md-12 height-40-px" *ngFor="let item of recentSearches; let i = index;">
+
+                  <div class="col-xs-1 padding-0">
+                    <input type="radio" name="search" id="{{'search' + i}}" />
+                    <label for="{{'search' + i}}">
+                      <span></span>
+                    </label>
+                  </div>
+                  <div class="col-xs-11">
+                    <p class="display-inlineBlock">Test search result</p>
+                  </div>
+
+
+                </div>
+                <div class="col-xs-12 col-md-12 padding-top-10">
+                  <p class="font-px-12 clickable">View more</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Categories -->
+        <div class="col-xs-12 col-md-12 padding-0 padding-top-40" *ngIf="activeTab === 1">
+            <h4 class="color-text-black font-weight-600 padding-bottom-15">Recent Categories</h4>
+            <div class="col-xs-11 col-md-12 padding-left-20 padding-right-0 color-bg-white div-white-box-shadow padding-top-25 padding-bottom-0">
+                <div class="col-xs-12 col-md-12 height-40-px" *ngFor="let item of recentCategories; let i = index;">
+
+                    <div class="col-xs-1 padding-0">
+                      <input type="radio" name="category" id="{{'category' + i}}" />
+                      <label for="{{'category' + i}}">
+                          <span></span>
+                      </label>
+                    </div>
+                    <div class="col-xs-11">
+                      <p class="display-inlineBlock">Test category</p>
+                    </div>
+
+
+                </div>
+                <div class="col-xs-12 col-md-12 padding-top-10">
+                  <p class="font-px-12 clickable">View more</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="index_contentarea" class="col-md-8 col-sm-12 col-xs-12 margin-top-30">
+
+        <ul id="submenu-ul" class="margin-bottom-15 padding-0 padding-left-15">
+            <li class="btn_submenu_li" style="margin-left:0px !important;">
+                <a routerLink="/home" routerLinkActive="active" class="btn_submenu" [ngClass]="{'btn_submenu_clicked': activeTab === 0}">Services</a>
+            </li>
+            <li class="btn_submenu_li">
+                <a routerLink="/explore/live-offers" routerLinkActive="active" class="btn_submenu" [ngClass]="{'btn_submenu_clicked': activeTab === 1}">Live offers</a>
+            </li>
+            <li class="btn_submenu_li">
+                <a routerLink="/explore/jobs" routerLinkActive="active" class="btn_submenu" [ngClass]="{'btn_submenu_clicked': activeTab === 2}">Jobs</a>
+            </li>
+        </ul>
+
+        <div class="services col-xs-12 col-md-12 padding-0 " id="content_area ">
+            <div id="services-container" style="display: flex; flex-wrap: wrap;" *ngIf="activeTab === 0">
+
+                <div *ngFor="let model of models" style="flex-grow: 1;min-width: 200px; max-width: 250px;" class="margin-bottom-40 margin-right-10 margin-left-10">
+                    <div class="col-md-12 col-xs-12 padding-0 sub_div div-white-box-shadow-7 div-white-box-shadow " style="max-width:250.5px;">
+
+                        <a [routerLink]="['/service/detail/'+ model.id]" routerLinkActive="active">
+                            <div class="col-md-12 col-xs-12 sub_div_image" [ngStyle]="{'background': '#fff url(' + model.media.fileName + ') no-repeat 0 0', 'background-size' : '100% 100%'}"></div>
+                        </a>
+
+                        <div class="col-md-12 col-xs-12 " *ngIf="model.location">
+                            <h4 class="text-bold" >{{model.description | truncateToWord:40}}</h4>
+                            <p class="font-em-09 margin-bottom-5">
+                                ${{model.prices.price}}
+                                <span *ngIf="model.priceWithoutDiscount" class="color-blue" style="text-decoration: line-through;">${{ model.priceWithoutDiscount }}</span> for {{model.prices.time}} per {{model.prices.timeUnitOfMeasure}}
+                            </p>
+
+                            <p *ngIf="(model.location && model.location[0]) && (model.fulfillmentMethod.local || model.fulfillmentMethod.store || model.fulfillmentMethod.shipment)" class="font-em-09 color-mediumgray">
+                                <span class="fa fa-map-marker"></span> {{model.location[0].city}} , {{model.location[0].state}}, {{ user && ( turf(model.location[0].geoJson,
+                                user.location.geoJson) | truncateNumber) }} km
+                            </p>
+
+                            <p *ngIf="!(model.fulfillmentMethod.local || model.fulfillmentMethod.store || model.fulfillmentMethod.shipment)" class="font-em-09 color-mediumgray">
+                                Online
+                            </p>
+
+                        </div>
+                        <div class="col-xs-12 col-md-12 sub_div_description">
+                            <div class="col-md-4 col-xs-4 padding-0 text-left">
+                                <img src="assets/images/p.png" alt="">
+                                <p class="color-mediumgray" style="font-size:12px;">{{model.pointValue}}</p>
+                            </div>
+                            <div class="col-md-4 col-xs-4 padding-0 text-center">
+                                <img src="assets/images/icons/brief2.png" style="vertical-align:text-bottom;" alt="">
+                                <p class="color-mediumgray" style="font-size:12px;">{{model.numOrders}}%</p>
+                            </div>
+                            <div class="col-md-4 col-xs-4 padding-0 text-right">
+                                <i class="fa fa-star color-mediumgray"></i>
+                                <p class="color-mediumgray" style="font-size:12px;">{{model.avgRating}}%</p>
+                            </div>
+                        </div>
+                        <div id="service_detail_link" class="cursor-pointer col-xs-12 col-md-12 padding-top-6 sub_div_footer" style="border-top:1px solid #e9e9e9;padding: 10px">
+                            <img [src]="model.seller.profilePic" alt="img" style="border-radius:50%; width:24px; height:24px; margin-right:2px;">
+                            <p [routerLink]="['/profile', model.seller.id]" class="color-mediumgray font-em-09">{{model.seller.firstName + ' ' + model.seller.lastName}}</p>
+                            <p *ngIf="model.promoted" class="p2 color-blue font-weight-600 pull-right margin-top-4" style="font-size:12px;">Promoted</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <app-explore-live-offers [requestId]="liveRequestId" *ngIf="activeTab === 1"></app-explore-live-offers>
+            <app-explore-jobs *ngIf="activeTab === 2"></app-explore-jobs>
+
+        </div>
+
+        <sk-three-bounce *ngIf="fetching && activeTab === 0"></sk-three-bounce>
+        <div *ngIf="page < maxPage" #scroll class="col-md-12 col-sm-12 sub_div col-xs-12 div-white-box-shadow margin-bottom-30 padding-0"
+            style="border:none !important;"></div>
+
+    </div>
+</div>

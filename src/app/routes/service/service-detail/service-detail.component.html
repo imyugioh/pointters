@@ -1,0 +1,565 @@
+<div *ngIf="user" id="index_main" class="col-xs-12 col-md-12 padding-0 padding-bottom-60" style="background-color:rgb(249,249,249)">
+  <div *ngIf="service">
+    <div class="container">
+
+      <div id="index_sidepanel" class="col-md-7 col-sm-7 col-xs-12 margin-top-30">
+
+        <h3 class="color-text-black font-weight-600">{{service.tagline}} <a (click)="onEditService()" *ngIf="user && (user._id == seller.userId)">( Edit Service
+        )</a></h3>
+        <p>{{service.description}}</p>
+        <!-- <p class="color-darkgray font-em-12 margin-top-20">Consulting financial services for small businesses. review your business financial operations. Consulting financial services for small businesses. review your business financial operations….</p> -->
+
+        <div class="col-xs-12 col-md-12 padding-0">
+          <div id="slides">
+            <div class="col-xs-12 col-md-12 padding-0" style="border-radius:3px; background-position:center; background-size:cover; height:400px;">
+              <ngx-carousel [inputs]="carouselBanner" [moveToSlide]="1">
+                <ngx-item *ngFor="let slideItem of service.media; let i = index" NgxCarouselItem class="bannerStyle">
+                  <div class="col-xs-12 col-md-12 padding-0">
+                    <img [src]="service.media[i].fileName" class="carouselImg">
+                  </div>
+                </ngx-item>
+
+                <button NgxCarouselPrev class="leftRs" style="background-image: url('assets/images/icons/slide_previous.png');"></button>
+                <button NgxCarouselNext class="rightRs" style="background-image: url('assets/images/icons/slide_next.png');"></button>
+              </ngx-carousel>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-xs-12 col-md-12 padding-0 margin-top-40">
+          <h4 class="color-text-black font-weight-600">Delivery Method</h4>
+
+          <div *ngIf="service.fulfillmentMethod.online" class="col-xs-12 col-md-12 padding-0 margin-top-10">
+            Online
+          </div>
+
+          <div *ngIf="service.fulfillmentMethod.shippement" class="col-xs-12 col-md-12 padding-0 margin-top-10">
+            Shippement
+          </div>
+
+
+          <p *ngIf="service.fulfillmentMethod.store" class="color-darkgray font-em-12 margin-top-20">Service locally within {{service.fulfillmentMethod.localServiceRadius + ' ' + service.fulfillmentMethod.localServiceRadiusUom
+            + 's'}} of {{service.location[0].city + ' ' + service.location[0].province + ' ' + service.location[0].state
+            + ' ' + getDistance(service.location[0].geoJson.coordinates)}}</p>
+          <p *ngIf="service.fulfillmentMethod.local" class="color-darkgray font-em-12 margin-top-20">Service of {{service.location[0].city + ' ' + service.location[0].province + ' ' + service.location[0].state +
+            ' ' + getDistance(service.location[0].geoJson.coordinates)}}</p>
+        </div>
+
+
+        <div *ngIf="service.fulfillmentMethod.store || service.fulfillmentMethod.local" class="col-xs-12 col-md-12 padding-0 margin-top-10"
+          style="border-radius:3px; height:350px;">
+          <agm-map [latitude]="lat" [longitude]="lng">
+            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+          </agm-map>
+        </div>
+
+
+
+        <div class="padding-top-20">
+
+        </div>
+
+        <div class="col-xs-12 col-md-12 padding-0 margin-top-40">
+
+        </div>
+
+        <div class="col-xs-12 col-md-12 padding-0 margin-top-40">
+          <h4 class="color-text-black font-weight-600 margin-bottom-20">Customer Reviews</h4>
+
+          <div *ngFor="let review of reviews" class="col-xs-12 col-md-12 padding-20 color-bg-white padding-right-10" style="border-top-right-radius:3px; border-top-left-radius:3px; border:1px solid #e4e4e4; border-top:0px;">
+
+            <div class="col-xs-3 col-md-1 padding-0">
+              <img src="{{review.profilePic}}" alt="" class="width-40-px height-40-px border-radius-50p">
+            </div>
+
+            <div class="col-xs-9 col-md-11 padding-0">
+
+              <div class="cr_wrapper col-xs-12 col-md-12 padding-0">
+
+                <div class="col-xs-3 col-md-4">
+                  <p class="cr_title color-darkgray font-em-13 margin-bottom-0">{{review.firstName}} {{review.lastName}}</p>
+                  <p class="cr_subtitle color-gray font-em-11">{{ review.createdAt }}</p>
+                </div>
+
+                <div class="cr_main col-xs-6 col-md-8 margin-top-2">
+
+                  <p *ngIf="review.willingToBuyServiceAgain" class="pull-right">
+                    <span class="color-gray">Buy again</span>
+                    <span class="color-blue margin-left-3">
+                      <img src="assets/images/icons/online.png" style="vertical-align:middle;" alt="">
+                    </span>
+                  </p>
+
+                  <p *ngIf="review.onTime" class="cr_sub pull-right margin-left-20 margin-right-20">
+                    <span class="color-gray">On time</span>
+                    <span class="color-blue margin-left-3">
+                      <img src="assets/images/icons/online.png" style="vertical-align:middle;" alt="">
+                    </span>
+                  </p>
+
+                  <p class="pull-right">
+                    <span class="color-gray">Quality</span>
+                    <span class="color-blue margin-left-3">{{ review.qualityOfService }}</span>
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <div class="col-xs-12 col-md-12">
+
+                <span style="position:relative; vertical-align:sub;">
+                  <img src="assets/images/icons/blue.png" alt="">
+                  <span class="font-weight-600 color-text-white" style="position:absolute; top:-6px; right:10px;">95%</span>
+                </span>
+
+                <p class="color-darkgray font-em-11 display-inlineBlock"> {{ review.comment }} </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div *ngIf="reviews && reviews.length == 0" class="col-xs-12 col-md-12 padding-20 color-bg-white padding-right-10" style="border-top-right-radius:3px; border-top-left-radius:3px; border:1px solid #e4e4e4; border-top:0px;">
+            No Available Review
+          </div>
+
+
+
+          <div *ngIf="reviews && reviews.length > 0" class="col-xs-12 col-md-12 padding-20 color-bg-white div-white-box-shadow-7" style="border-top-right-radius:3px; border-top-left-radius:3px; border:1px solid #e4e4e4; border-top:0px;">
+
+            <ng-container *ngIf="reviews">
+              <p *ngIf=" (serviceReviews.total - reviews.length) > 0" (click)="fetchReviews()" class="color-blue font-weight-600 margin-bottom-0">View {{ serviceReviews.total - reviews.length }} more reviews</p>
+
+            </ng-container>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+      <div id="index_contentarea" class="col-md-5 col-sm-5 col-xs-12 margin-top-45">
+        <div class="col-xs-12 col-md-12">
+
+
+          <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <div class="d-flex">
+
+                    <p class="text-uppercase text-left margin-0 font-weight-600 font-em-11">Share</p>
+
+                    <button  type="button" class="close" style="margin-left:auto" aria-label="Close" (click)="d()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+
+                </div>
+
+            </div>
+            <div class="modal-body padding-left-30 padding-right-30">
+              <p>Check out this awesome service on Pointters</p>
+
+              <div class="social">
+                <share-button button="facebook"></share-button>
+                <span> Share on Facebook</span>
+                <div class="separator"></div>
+              </div>
+
+              <div class="social">
+                <share-button button="twitter"></share-button>
+                <span> Share on Twitter</span>
+                <div class="separator"></div>
+
+              </div>
+
+              <div class="social">
+                <share-button button="google"></share-button>
+                <span> Share on Google</span>
+                <div class="separator"></div>
+
+              </div>
+
+              <div class="social margin-bottom-20">
+                <share-button button="linkedin"></share-button>
+                <span> Share on LinkedIn</span>
+              </div>
+
+              <div class="link">
+                <span class="padding-right-10"> www.pointters.com/service/detail/{{service.id}} </span>
+                <button class="btn"> Copy Link</button>
+              </div>
+            </div>
+
+          </ng-template>
+
+
+
+          <div class="col-xs-4 col-md-4 padding-0 text-center">
+            <li (click)="open(content)" class="padding-8 padding-left-15 padding-right-12 width-110-px text-center common-btn-off">
+              <img src="assets/images/icons/share.png" alt="">
+              <p class="display-inlineBlock color-gray margin-left-3 font-weight-600 margin-bottom-0">Share</p>
+            </li>
+          </div>
+
+          <div class="col-xs-4 col-md-4 padding-0 text-center" (click)="onAction('like');">
+            <li [ngClass]="onLike?'padding-8 padding-left-15 padding-right-12 width-110-px text-center common-btn-on':'padding-8 padding-left-15 padding-right-12 width-110-px text-center common-btn-off'">
+              <img src="assets/images/icons/heart_gray.png" alt="">
+              <p class="display-inlineBlock color-gray margin-left-3 font-weight-600 margin-bottom-0">Like</p>
+            </li>
+          </div>
+
+          <div class="col-xs-4 col-md-4 padding-left-0" (click)="onAction('watch');">
+            <li [ngClass]="onWatch?'padding-8 padding-left-15 padding-right-12 width-110-px text-center common-btn-on':'padding-8 padding-left-15 padding-right-12 width-110-px text-center common-btn-off'">
+              <img src="assets/images/icons/visibility.png" alt="">
+              <p class="display-inlineBlock color-gray margin-left-3 font-weight-600 margin-bottom-0">Watch</p>
+            </li>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 margin-top-10">
+
+          <div class="col-xs-12 col-md-12 padding-top-15 padding-left-0">
+
+            <div class="col-xs-12 col-md-12 color-bg-white div-white-box-shadow padding-25 padding-bottom-0">
+              <div *ngFor="let price_item of service.prices; let i = index">
+                <div class="col-xs-12 col-md-12 padding-0 margin-top-5">
+                  <div class="col-xs-6 col-md-6 padding-0">
+                    <h4 class="margin-0">{{price_item.price + price_item.currencySymbol}} / {{price_item.time}} {{price_item.timeUnitOfMeasure}}</h4>
+                    <p class="font-em-11 color-gray">{{price_item.description}}</p>
+                  </div>
+
+                  <div class="col-xs-6 col-md-6 padding-0">
+
+                    <div class="pull-right">
+                      <img class="cursor-pointer" (click)="onChangeBuyCount('down',i);" src="assets/images/icons/minus.png" alt="">
+                      <p id="text_value_1" class="width-40-px display-inlineBlock text-center font-weight-600 font-em-13" style="color:#484848;">{{buyCount[i]}}</p>
+                      <img class="cursor-pointer" (click)="onChangeBuyCount('up',i);" src="assets/images/icons/plus.png" alt="">
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-12 padding-0 margin-top-15">
+
+                <li class="bg-blue width-100-p padding-top-15 padding-bottom-15 text-center" style="border-radius:30px">
+                  <a class="color-text-white text-center font-weight-600 font-em-11" routerLink="../../../checkout">BUY FOR ${{totalBuyAmount}}</a>
+                </li>
+
+                <p class="text-center margin-top-20 margin-bottom-0 color-text-black font-px-14">
+                  Get Custom Offer
+                  <i class="fa fa-angle-right color-mediumgray font-px-24 margin-left-5" style="vertical-align:sub;"></i>
+                </p>
+
+              </div>
+
+              <div class="col-xs-12 col-md-12 padding-0 margin-top-15">
+                <p></p>
+              </div>
+
+            </div>
+
+            <div class="col-xs-12 col-md-12 color-bg-white div-white-box-shadow padding-25 margin-top-30">
+
+              <div class="col-xs-5 col-md-4 padding-0 text-center">
+                <img [src]="seller.profilePic" style="width:74px; height:74px; border-radius:50%;" alt="">
+              </div>
+
+              <div class="col-xs-7 col-md-8 padding-right-0 padding-left-5 cursor-pointer">
+
+                <div class="col-xs-12 col-md-12 padding-0" [routerLink]="['/profile', seller.userId]">
+                  <h4 onclick="open_userprofile()" class="cursor-pointer display-inlineBlock font-weight-600 margin-right-2 margin-top-0">{{seller.firstName+' '+seller.lastName}}</h4>
+                  <img src="assets/images/icons/online@2x.png" style="vertical-align:text-bottom;" width="18px" height="18px" alt="">
+                </div>
+
+                <div class="col-xs-12 col-md-12 padding-0" [routerLink]="['/profile', seller.userId]">
+                  <p class="color-gray margin-bottom-0">ABC Company</p>
+                  <p class="color-gray font-em-09">
+                    <i class="fa fa-map-marker color-gray"></i> {{service.location[0].city + ', ' + service.location[0].province + ', ' + service.location[0].state}}
+                  </p>
+                </div>
+
+                <div class="col-xs-12 col-md-12 padding-0">
+
+                  <div class="col-xs-6 col-md-6 padding-0" [routerLink]="['/profile', seller.userId]">
+                    <li class="padding-5 padding-left-8 padding-right-8 width-90-px text-center" style="border:1px solid #AEB3BB; border-radius:20px; max-width:97% !important;">
+                      <img src="assets/images/icons/phone@2x.png" width="16px" height="16px" alt="">
+                      <p class="display-inlineBlock color-gray margin-left-3 font-weight-600 margin-bottom-0">Call</p>
+                    </li>
+                  </div>
+
+                  <div class="col-xs-6 col-md-6 padding-0" (click)="openChat()">
+                    <li class="padding-5 padding-left-8 padding-right-8 width-90-px text-center" style="border:1px solid #AEB3BB; border-radius:20px; max-width:97% !important;">
+                      <img src="assets/images/icons/envelope.png" style="margin-top:-2px" width="16px" alt="">
+                      <p class="display-inlineBlock color-gray margin-left-3 font-weight-600 margin-bottom-0" (click)="openChat()">Chat</p>
+                    </li>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="col-xs-12 col-md-12 color-bg-white div-white-box-shadow margin-top-30">
+
+
+
+
+              <div class="col-xs-12 col-md-12 padding-left-20 padding-top-20 padding-bottom-10">
+
+                <h4 class="color-darkgray text-center font-weight-600">Service Metrics</h4>
+
+                <div class="col-xs-12 col-md-12 padding-0 padding-top-20">
+
+                  <div class="col-xs-4 col-md-4 padding-right-0">
+
+                    <div class="col-xs-12 col-md-12 padding-0">
+                      <div class="border-radius-50p pull-left" style="border:1px solid #95989A; width:44px; height:44px;">
+                        <p class="color-darkgray padding-top-13 font-px-12 text-center">{{serviceMetrics.avgOnTime}}%</p>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12 padding-0 margin-top-5">
+                      <p class="color-darkgray font-px-12 text-left">On time</p>
+                    </div>
+
+                  </div>
+
+                  <div class="col-xs-4 col-md-4 padding-0">
+
+                    <div class="col-xs-12 col-md-12 padding-0">
+                      <div class="border-radius-50p margin-left-right-auto" style="border:1px solid #95989A; width:44px; height:44px;">
+                        <p class="color-darkgray padding-top-13 font-px-12 text-center">{{serviceMetrics.avgQuality}}</p>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12 padding-0 margin-top-5">
+                      <p class="color-darkgray font-px-12 text-center">Quality</p>
+                    </div>
+
+                  </div>
+
+                  <div class="col-xs-4 col-md-4 padding-0">
+
+                    <div class="col-xs-12 col-md-12 padding-right-30">
+                      <div class="border-radius-50p pull-right" style="border:1px solid #95989A; width:44px; height:44px;">
+                        <p class="color-darkgray padding-top-13 font-px-12 text-center">{{serviceMetrics.avgResponseTime}}hr</p>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12 padding-0 margin-top-5">
+                      <p class="color-darkgray font-px-12 text-center">Avg. response
+                        <br/> time</p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="col-xs-12 col-md-12 padding-0 padding-top-20" style="border-top:1px solid #ccc;">
+
+                  <div class="col-xs-12 col-md-12 padding-0">
+
+                    <div class="col-md-1 col-xs-2 padding-0">
+                      <!--                                  <i class="fa fa-briefcase color-mediumgray font-px-16 margin-top-3"></i>-->
+                      <img src="assets/images/icons/brief.png" width="18px" height="18px" style="margin-left:-1px;" alt="">
+                    </div>
+
+                    <div class="col-md-10 col-xs-10 padding-right-0">
+                      <p class="color-gray text-left">
+                        <span class="color-darkgray">{{serviceMetrics.numOrdersCompleted}}%</span> service order completed
+                      </p>
+                    </div>
+
+                  </div>
+
+
+                  <div class="col-xs-12 col-md-12 padding-0 margin-top-10">
+
+                    <div class="col-md-1 col-xs-2 padding-0">
+                      <i class="fa fa-star color-mediumgray font-px-16 margin-top-3"></i>
+                    </div>
+
+                    <div class="col-md-10 col-xs-10 padding-right-0">
+                      <p class="color-gray text-left">
+                        <span class="color-darkgray">{{serviceMetrics.avgRating}}%</span> avg rating
+                      </p>
+                    </div>
+
+                  </div>
+
+
+                  <div class="col-xs-12 col-md-12 padding-0 margin-top-10">
+
+                    <div class="col-md-1 col-xs-2 padding-0">
+                      <i class="fa fa-users color-mediumgray font-px-16 margin-top-3"></i>
+                    </div>
+
+                    <div class="col-md-10 col-xs-10 padding-right-0">
+                      <p class="color-gray text-left">
+                        <span class="color-darkgray">{{serviceMetrics.avgWillingToBuyAgain}}%</span> of customers will buy this service again
+                      </p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-12 padding-bottom-40">
+
+                <div class="col-xs-12 col-md-12 padding-0 padding-top-10" style="border-top:1px solid #ccc;">
+
+                  <div class="col-xs-4 col-md-4 padding-0 margin-top-10">
+
+                    <div class="col-md-6 col-xs-6 padding-0">
+                      <div class="text-center border-radius-50p margin-left-right-auto padding-top-5 margin-top-2" style="border:1px solid #95989A; width:32px; height:32px;">
+                        <img src="assets/images/p.png" alt="">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 col-xs-6 padding-0 padding-left-2">
+                      <p class="color-gray text-left color-darkgray margin-0">{{serviceMetrics.pointValue}}</p>
+                      <p class="color-gray text-left color-darkgray margin-0 font-em-07">Points</p>
+                    </div>
+
+                  </div>
+
+
+                  <div class="col-xs-4 col-md-4 padding-0 margin-top-10">
+
+                    <div class="col-md-6 col-xs-6 padding-0">
+                      <div class="text-center border-radius-50p margin-left-right-auto padding-top-5 margin-top-2" style="border:1px solid #95989A; width:32px; height:32px;">
+                        <i class="fa fa-heart-o color-gray"></i>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 col-xs-6 padding-0 padding-left-2">
+                      <p class="color-gray text-left color-darkgray margin-0">{{serviceMetrics.numLikes}}</p>
+                      <p class="color-gray text-left color-darkgray margin-0 font-em-07">Likes</p>
+                    </div>
+
+                  </div>
+
+
+                  <div class="col-xs-4 col-md-4 padding-0 margin-top-10">
+
+                    <div class="col-md-6 col-xs-6 padding-0">
+                      <div class="text-center border-radius-50p margin-left-right-auto padding-top-5 margin-top-2" style="border:1px solid #95989A; width:32px; height:32px;">
+                        <i class="fa fa-eye color-gray"></i>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 col-xs-6 padding-0 padding-left-2">
+                      <p class="color-gray text-left color-darkgray margin-0">{{serviceMetrics.numWatching}}</p>
+                      <p class="color-gray text-left color-darkgray margin-0 font-em-07">Watching</p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="col-xs-12 col-md-12 padding-0">
+              <span class="pull-right margin-top-10">
+                <img src="assets/images/icons/icon_flag.png" alt="">
+                <p class="color-gray font-px-12 display-inlineBlock">Report inappropiate</p>
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="col-xs-12 col-md-12 padding-0 margin-top-40">
+
+        <h4 class="color-text-black font-weight-600 margin-bottom-20 margin-left-15">Related Services</h4>
+
+
+
+
+        <div *ngIf="relatedServices">
+
+          <div id="services-container" class="services" style="display: flex; flex-wrap: wrap;">
+
+            <div *ngFor="let doc of relatedServices" style="flex-grow: 1;min-width: 200px; max-width: 250px;" class="margin-bottom-40 margin-right-10 margin-left-10">
+              <div class="col-md-12 col-xs-12 padding-0 sub_div div-white-box-shadow-7 div-white-box-shadow " style="max-width:250.5px;">
+
+                <a [routerLink]="['/service/detail/'+ doc.service.id]" routerLinkActive="active">
+                  <div class="col-md-12 col-xs-12 sub_div_image" [ngStyle]="{'background': '#fff url(' + doc.service.media[0].fileName + ') no-repeat 0 0', 'background-size' : '100% 100%'}"></div>
+                </a>
+
+                <div class="col-md-12 col-xs-12 " *ngIf="doc.service.location">
+                  <h4>{{doc.service.description | truncateToWord:40}}</h4>
+                  <p class="font-em-09 margin-bottom-5">
+                    ${{doc.service.prices.price}}
+                    <span *ngIf="doc.service.priceWithoutDiscount" class="color-blue" style="text-decoration: line-through;">${{ doc.service.priceWithoutDiscount }}</span> for {{doc.service.prices.time}} per {{doc.service.prices.timeUnitOfMeasure}}
+                  </p>
+
+                  <p *ngIf="doc.service.fulfillmentMethod.local || doc.service.fulfillmentMethod.store || doc.service.fulfillmentMethod.shipment" class="font-em-09 color-mediumgray">
+                      <span class="fa fa-map-marker"></span> {{doc.service.location[0].city}} , {{doc.service.location[0].country}}, {{ user && ( ""|calcDistance:doc.service.location[0].geoJson:
+                      user.location.geoJson) | truncateNumber }} km
+                  </p>
+
+                  <p *ngIf="!(doc.service.fulfillmentMethod.local || doc.service.fulfillmentMethod.store || doc.service.fulfillmentMethod.shipment)" class="font-em-09 color-mediumgray">
+                      Online
+                  </p>
+                </div>
+                <div class="col-xs-12 col-md-12 sub_div_description">
+                  <div class="col-md-4 col-xs-4 padding-0 text-left">
+                    <img src="assets/images/p.png" alt="">
+                    <p class="color-mediumgray" style="font-size:12px;">{{doc.service.pointValue}}</p>
+                  </div>
+                  <div class="col-md-4 col-xs-4 padding-0 text-center">
+                    <img src="assets/images/icons/brief2.png" style="vertical-align:text-bottom;" alt="">
+                    <p class="color-mediumgray" style="font-size:12px;">{{doc.service.numOrders}}%</p>
+                  </div>
+                  <div class="col-md-4 col-xs-4 padding-0 text-right">
+                    <i class="fa fa-star color-mediumgray"></i>
+                    <p class="color-mediumgray" style="font-size:12px;">{{doc.service.avgRating}}%</p>
+                  </div>
+                </div>
+                <div id="service_detail_link" (click)="onSellerProfile(doc.seller.userId);" class="cursor-pointer col-xs-12 col-md-12 padding-top-6 sub_div_footer"
+                  style="border-top:1px solid #e9e9e9;padding: 10px">
+                  <img [src]="doc.seller.profilePic" alt="img" style="border-radius:50%; width:24px; height:24px; margin-right:2px;">
+                  <p class="color-mediumgray font-em-09">{{doc.seller.firstName + ' ' + doc.seller.lastName}}</p>
+                  <p *ngIf="doc.service.promoted" class="p2 color-blue font-weight-600 pull-right margin-top-4" style="font-size:12px;">Promoted</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+  </div>
+  <div *ngIf="!service">
+    <div class="loader-div">
+      <div class="loader"></div>
+    </div>
+  </div>
+</div>
